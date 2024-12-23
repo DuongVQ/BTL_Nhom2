@@ -2,22 +2,23 @@
 session_start();
 include_once "../../config.php";
 
-$con = new mysqli($url, $uname, $upass, $dbname);
+$product_id = $_GET['id'];
 
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
+// Delete product images
+$con->query("DELETE FROM product_images WHERE product_id = $product_id");
 
-$id = $_GET['id'];
+// Delete product colors
+$con->query("DELETE FROM product_colors WHERE product_id = $product_id");
 
-if ($con->query("DELETE FROM products WHERE id='$id'") === TRUE) {
-    $_SESSION['message'] = "Product deleted successfully!";
-} else {
-    $_SESSION['message'] = "Error deleting product: " . $con->error;
-}
+// Delete product sizes
+$con->query("DELETE FROM product_sizes WHERE product_id = $product_id");
 
-$con->close();
+// Delete product
+$con->query("DELETE FROM products WHERE id = $product_id");
 
+$_SESSION['message'] = "Product deleted successfully!";
 header("Location: list.php");
 exit();
+
+$con->close();
 ?>

@@ -22,6 +22,7 @@
     <!-- Link css -->
     <link rel="stylesheet" href="../../templates/css/header.css">
     <link rel="stylesheet" href="../../templates/css/home.css">
+    <link rel="stylesheet" href="../../templates/css/footer.css">
 </head>
 
 <body>

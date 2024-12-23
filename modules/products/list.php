@@ -2,12 +2,6 @@
 session_start();
 include_once "../../config.php";
 
-$con = new mysqli($url, $uname, $upass, $dbname);
-
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
-
 $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category = c.id");
 ?>
 <!DOCTYPE html>
