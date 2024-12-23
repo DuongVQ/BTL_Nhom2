@@ -2,12 +2,6 @@
 session_start();
 include_once "../../config.php";
 
-$con = new mysqli($url, $uname, $upass, $dbname);
-
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $code = $_POST['code'];
@@ -18,11 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category_id = $_POST['category_id'];
     $status = $_POST['status'];
 
-    // Insert product
+    // Insert sản phẩm
     $con->query("INSERT INTO products (name, code, description, price, old_price, discount, category, status) VALUES ('$name', '$code', '$description', '$price', '$old_price', '$discount', '$category_id', '$status')");
     $product_id = $con->insert_id;
 
-    // Handle image uploads
+    // Xử lý tải lên hình ảnh
     foreach ($_FILES['images']['name'] as $key => $image_name) {
         if (!empty($image_name)) {
             $folder = "../../image/";
@@ -39,15 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Insert colors
-    foreach ($_POST['colors'] as $color) {
+    // Xử lý màu sắc (dữ liệu là chuỗi)
+    $colors = explode(',', $_POST['colors']); // Tách các màu bằng dấu phẩy
+    foreach ($colors as $color) {
+        $color = trim($color); // Loại bỏ khoảng trắng thừa
         if (!empty($color)) {
             $con->query("INSERT INTO product_colors (product_id, color_name) VALUES ('$product_id', '$color')");
         }
     }
 
-    // Insert sizes
-    foreach ($_POST['sizes'] as $size) {
+    // Xử lý kích thước (dữ liệu là chuỗi)
+    $sizes = explode(',', $_POST['sizes']); // Tách các kích thước bằng dấu phẩy
+    foreach ($sizes as $size) {
+        $size = trim($size); // Loại bỏ khoảng trắng thừa
         if (!empty($size)) {
             $con->query("INSERT INTO product_sizes (product_id, size_name) VALUES ('$product_id', '$size')");
         }
@@ -60,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $con->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,11 +122,11 @@ $con->close();
             </div>
             <div class="mb-3">
                 <label for="colors" class="form-label">Colors</label>
-                <input type="text" class="form-control" id="colors" name="colors[]" placeholder="Enter colors separated by commas">
+                <input type="text" class="form-control" id="colors" name="colors" placeholder="Enter colors separated by commas">
             </div>
             <div class="mb-3">
                 <label for="sizes" class="form-label">Sizes</label>
-                <input type="text" class="form-control" id="sizes" name="sizes[]" placeholder="Enter sizes separated by commas">
+                <input type="text" class="form-control" id="sizes" name="sizes" placeholder="Enter sizes separated by commas">
             </div>
             <button type="submit" class="btn btn-primary">Add Product</button>
         </form>
