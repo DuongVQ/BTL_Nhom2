@@ -37,7 +37,6 @@ if ($saleResult->num_rows > 0) {
         $row['sizes'] = $sizes; // Gán mảng kích thước hoàn chỉnh
 
         $saleProducts[] = $row; // Thêm sản phẩm vào mảng kết quả
-        print_r($row['sizes']);
     }
 }
 
@@ -123,7 +122,9 @@ $con->close();
         <div class="swiper-wrapper">
             <?php foreach ($saleProducts as $saleProduct): ?>
                 <div class="swiper-slide">
-                    <div class="item-product">
+                    <div class="item-product" data-product-id="<?= htmlspecialchars($saleProduct['id']) ?>"
+                        data-colors="<?= htmlspecialchars(implode(', ', $saleProduct['colors'])) ?>"
+                        data-sizes="<?= htmlspecialchars(implode(', ', $saleProduct['sizes'])) ?>">
                         <!-- Giảm giá -->
                         <div class="sale">-<?= intval($saleProduct['discount']) ?>%</div>
 
@@ -169,6 +170,8 @@ $con->close();
         </a>
     </div>
 </div>
+
 <?php
 include_once "../../layout/footer/footer.php";
+include_once "../../layout/modal/modal-product.php";
 ?>
