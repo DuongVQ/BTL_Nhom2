@@ -66,61 +66,27 @@
         color: white; 
     }
 </style>
-</head>
-<body>
-<div class="container-fluid d-flex">
-    <div class="slidebar position-fixed top-0 start-0" style="width: 250px; height: 100vh; padding-top: 100px;">
-        <ul>
-            <li class="list-unstyled">
-                <a href="?page_layout=user">
-                    <i class="fa-solid fa-id-card"></i>
-                    Quản lý người dùng
-                </a>
-            </li>
-            <li class="list-unstyled">
-                <a href="?page_layout=category">
-                    <i class="fa-solid fa-tags"></i>
-                    Quản lý danh mục
-                </a>
-            </li>
-            <li class="list-unstyled">
-                <a href="?page_layout=products">
-                    <i class="fa-solid fa-box-archive"></i>
-                    Quản lý sản phẩm
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="right ms-auto" style="margin-left: 250px; padding: 20px; width: calc(100% - 250px);">
-        <?php
-        if (isset($_GET['page_layout'])) {
-            switch ($_GET['page_layout']) {
-                case 'user';
-                    include_once('../../modules/manager_user/list.php');
-                    break;
 
-                case 'category';
-                    include_once('../../modules/category/list.php');
-                    break;
 
-                case 'products';
-                    include_once('../../modules/products/list.php');
-                    break;
-            }
-        }
-        ?>
-    </div>
+<div class="slidebar position-fixed top-0 start-0" style="width: 250px; height: 100vh; padding-top: 100px">
+    <ul>
+        <li class="list-unstyled">
+            <a href="#">
+                <i class="fa-solid fa-id-card"></i>
+                Quản lý người dùng
+            </a>
+        </li>
+        <li class="list-unstyled">
+            <a href="#">
+                <i class="fa-solid fa-tags"></i>
+                Quản lý danh mục
+            </a>
+        </li>
+        <li class="list-unstyled">
+            <a href="#">
+                <i class="fa-solid fa-box-archive"></i>
+                Quản lý sản phẩm
+            </a>
+        </li>
+    </ul>
 </div>
-
-<style>
-    .right{
-        
-        display: block;
-    }
-</style>
-</body>
-</html>
-
-
-
-
