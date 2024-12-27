@@ -73,7 +73,7 @@
                     </a>
                 </div>
                 <div class="header-user">
-                    <a href="/BTL_Nhom2/modules/dashboard/login.php">
+                    <a href="../../modules/dashboard/login.php">
                         <button class="header-action-btn">
                             <box-icon name='user'></box-icon>
                         </button>
