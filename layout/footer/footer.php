@@ -225,4 +225,24 @@
             }
         });
     });
+
+    // Lấy tất cả các tab link và nội dung tab
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    // Thêm sự kiện click cho mỗi tab link
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Xóa class 'active' khỏi tất cả các tab link
+            tabLinks.forEach(link => link.classList.remove('active'));
+            // Thêm class 'active' vào tab link được click
+            this.classList.add('active');
+
+            // Ẩn tất cả các tab pane
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            // Hiển thị tab pane tương ứng với tab link được click
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
 </script>

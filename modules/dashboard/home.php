@@ -1,6 +1,7 @@
 <?php
 include_once "../../layout/header/header.php";
 include_once "../../config.php";
+include_once "../../includes/function.php";
 
 $result = $con->query("SELECT * FROM categories LIMIT 7");
 $listCategories = [];
@@ -168,6 +169,234 @@ $con->close();
         <a href="#" class="see-more">
             <button class="btn"><i class="fa-solid fa-angles-right"></i> Xem thêm</button>
         </a>
+    </div>
+</div>
+
+<div class="tabs">
+    <!-- Danh mục -->
+    <div class="tab-menu">
+        <button class="tab-link active" data-tab="tab-1">Áo Khoác</button>
+        <button class="tab-link" data-tab="tab-2">Bộ Nỉ</button>
+        <button class="tab-link" data-tab="tab-3">Sơ Mi - Quần Dài</button>
+        <button class="tab-link" data-tab="tab-4">Áo Polo</button>
+    </div>
+
+    <!-- Nội dung từng danh mục -->
+    <div class="tab-content">
+        <div id="tab-1" class="tab-pane active">
+            <div class="product-grid">
+                <?php foreach ($aoKhoacs as $aoKhoac): ?>
+                    <div class="item-product" data-product-id="<?= htmlspecialchars($aoKhoac['id']) ?>"
+                        data-colors="<?= htmlspecialchars(implode(', ', $aoKhoac['colors'])) ?>"
+                        data-sizes="<?= htmlspecialchars(implode(', ', $aoKhoac['sizes'])) ?>">
+                        <!-- Giảm giá -->
+                        <?php if ($aoKhoac['discount'] > 0): ?>
+                            <div class="sale">-<?= intval($aoKhoac['discount']) ?>%</div>
+                        <?php endif; ?>
+
+                        <!-- Hình ảnh sản phẩm -->
+                        <div class="img-product">
+                            <img src="<?= htmlspecialchars($aoKhoac['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($aoKhoac['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
+                            <div class="img-product-after">
+                                <img src="../../templates/image/after.png" alt="Ảnh phụ">
+                                <div class="wrapper-addCart">
+                                    <div class="addCart">
+                                        <i class="fa-solid fa-bag-shopping me-1"></i>Thêm
+                                    </div>
+                                    <div class="quick-view">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin sản phẩm -->
+                        <div class="info-item-product">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>+<?= count($aoKhoac['colors']) ?> Màu sắc</span>
+                                <span>+<?= count($aoKhoac['sizes']) ?> Kích thước</span>
+                            </div>
+                            <div class="name-product"><?= htmlspecialchars($aoKhoac['name']) ?></div>
+                            <div class="price">
+                                <div class="new"><?= number_format($aoKhoac['price'], 0, ',', '.') ?>đ</div>
+                                <?php if (!empty($aoKhoac['old_price']) && ($aoKhoac['old_price'] != $aoKhoac['price'])): ?>
+                                    <div class="old"><?= number_format($aoKhoac['old_price'], 0, ',', '.') ?>đ</div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div id="tab-2" class="tab-pane">
+            <div class="product-grid">
+                <?php foreach ($boNis as $boNi): ?>
+                    <div class="item-product" data-product-id="<?= htmlspecialchars($boNi['id']) ?>"
+                        data-colors="<?= htmlspecialchars(implode(', ', $boNi['colors'])) ?>"
+                        data-sizes="<?= htmlspecialchars(implode(', ', $boNi['sizes'])) ?>">
+                        <!-- Giảm giá -->
+                        <?php if ($boNi['discount'] > 0): ?>
+                            <div class="sale">-<?= intval($boNi['discount']) ?>%</div>
+                        <?php endif; ?>
+
+                        <!-- Hình ảnh sản phẩm -->
+                        <div class="img-product">
+                            <img src="<?= htmlspecialchars($boNi['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($boNi['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
+                            <div class="img-product-after">
+                                <img src="../../templates/image/after.png" alt="Ảnh phụ">
+                                <div class="wrapper-addCart">
+                                    <div class="addCart">
+                                        <i class="fa-solid fa-bag-shopping me-1"></i>Thêm
+                                    </div>
+                                    <div class="quick-view">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin sản phẩm -->
+                        <div class="info-item-product">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>+<?= count($boNi['colors']) ?> Màu sắc</span>
+                                <span>+<?= count($boNi['sizes']) ?> Kích thước</span>
+                            </div>
+                            <div class="name-product"><?= htmlspecialchars($boNi['name']) ?></div>
+                            <div class="price">
+                                <div class="new"><?= number_format($boNi['price'], 0, ',', '.') ?>đ</div>
+                                <?php if (!empty($boNi['old_price']) && ($boNi['old_price'] != $boNi['price'])): ?>
+                                    <div class="old"><?= number_format($boNi['old_price'], 0, ',', '.') ?>đ</div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div id="tab-3" class="tab-pane">
+            <div class="product-grid">
+                <?php foreach ($soMis as $soMi): ?>
+                    <div class="item-product" data-product-id="<?= htmlspecialchars($soMi['id']) ?>"
+                        data-colors="<?= htmlspecialchars(implode(', ', $soMi['colors'])) ?>"
+                        data-sizes="<?= htmlspecialchars(implode(', ', $soMi['sizes'])) ?>">
+                        <!-- Giảm giá -->
+                        <?php if ($soMi['discount'] > 0): ?>
+                            <div class="sale">-<?= intval($soMi['discount']) ?>%</div>
+                        <?php endif; ?>
+
+                        <!-- Hình ảnh sản phẩm -->
+                        <div class="img-product">
+                            <img src="<?= htmlspecialchars($soMi['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($soMi['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
+                            <div class="img-product-after">
+                                <img src="../../templates/image/after.png" alt="Ảnh phụ">
+                                <div class="wrapper-addCart">
+                                    <div class="addCart">
+                                        <i class="fa-solid fa-bag-shopping me-1"></i>Thêm
+                                    </div>
+                                    <div class="quick-view">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin sản phẩm -->
+                        <div class="info-item-product">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>+<?= count($soMi['colors']) ?> Màu sắc</span>
+                                <span>+<?= count($soMi['sizes']) ?> Kích thước</span>
+                            </div>
+                            <div class="name-product"><?= htmlspecialchars($soMi['name']) ?></div>
+                            <div class="price">
+                                <div class="new"><?= number_format($soMi['price'], 0, ',', '.') ?>đ</div>
+                                <?php if (!empty($soMi['old_price']) && ($soMi['old_price'] != $soMi['price'])): ?>
+                                    <div class="old"><?= number_format($soMi['old_price'], 0, ',', '.') ?>đ</div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div id="tab-4" class="tab-pane">
+            <div class="product-grid">
+                <?php foreach ($aoPolos as $aoPolo): ?>
+                    <div class="item-product" data-product-id="<?= htmlspecialchars($aoPolo['id']) ?>"
+                        data-colors="<?= htmlspecialchars(implode(', ', $aoPolo['colors'])) ?>"
+                        data-sizes="<?= htmlspecialchars(implode(', ', $aoPolo['sizes'])) ?>">
+                        <!-- Giảm giá -->
+                        <?php if ($aoPolo['discount'] > 0): ?>
+                            <div class="sale">-<?= intval($aoPolo['discount']) ?>%</div>
+                        <?php endif; ?>
+
+                        <!-- Hình ảnh sản phẩm -->
+                        <div class="img-product">
+                            <img src="<?= htmlspecialchars($aoPolo['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($aoPolo['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
+                            <div class="img-product-after">
+                                <img src="../../templates/image/after.png" alt="Ảnh phụ">
+                                <div class="wrapper-addCart">
+                                    <div class="addCart">
+                                        <i class="fa-solid fa-bag-shopping me-1"></i>Thêm
+                                    </div>
+                                    <div class="quick-view">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin sản phẩm -->
+                        <div class="info-item-product">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>+<?= count($aoPolo['colors']) ?> Màu sắc</span>
+                                <span>+<?= count($aoPolo['sizes']) ?> Kích thước</span>
+                            </div>
+                            <div class="name-product"><?= htmlspecialchars($aoPolo['name']) ?></div>
+                            <div class="price">
+                                <div class="new"><?= number_format($aoPolo['price'], 0, ',', '.') ?>đ</div>
+                                <?php if (!empty($aoPolo['old_price']) && ($aoPolo['old_price'] != $aoPolo['price'])): ?>
+                                    <div class="old"><?= number_format($aoPolo['old_price'], 0, ',', '.') ?>đ</div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- info -->
+<hr>
+<div class="support-information">
+    <div class="item-support-information">
+        <img class=" lazyloaded" data-src="//theme.hstatic.net/200000690725/1001078549/14/home_policy_icon_1.png?v=614" src="//theme.hstatic.net/200000690725/1001078549/14/home_policy_icon_1.png?v=614" alt="Miễn phí vận chuyển">
+        <div class="info-item-support-information">
+            <h3 class="">Miễn phí vận chuyển</h3>
+            <span>Áp dụng cho mọi đơn hàng từ 500k</span>
+        </div>
+    </div>
+    <div class="item-support-information">
+        <img class=" lazyloaded" data-src="//theme.hstatic.net/200000690725/1001078549/14/home_policy_icon_2.png?v=614" src="//theme.hstatic.net/200000690725/1001078549/14/home_policy_icon_2.png?v=614" alt="Đổi hàng dễ dàng">
+        <div class="info-item-support-information">
+            <h3 class="">Dễ dàng đổi hàng</h3>
+            <span>7 ngày đổi hàng vì bất cứ lý do gì</span>
+        </div>
+    </div>
+    <div class="item-support-information">
+        <img class=" lazyloaded" data-src="//theme.hstatic.net/200000690725/1001078549/14/home_policy_icon_3.png?v=614" src="//theme.hstatic.net/200000690725/1001078549/14/home_policy_icon_3.png?v=614" alt="Hỗ trợ nhanh chóng">
+        <div class="info-item-support-information">
+            <h3 class="">Hỗ trợ nhanh chóng</h3>
+            <span>HOTLINE 24/7 : 0967083126</span>
+        </div>
+    </div>
+    <div class="item-support-information">
+        <img class=" lazyloaded" data-src="//theme.hstatic.net/200000690725/1001078549/14/home_policy_icon_4.png?v=614" src="//theme.hstatic.net/200000690725/1001078549/14/home_policy_icon_4.png?v=614" alt="Thanh toán đa dạng">
+        <div class="info-item-support-information">
+            <h3 class="">Thanh toán đa dạng</h3>
+            <span>Thanh toán khi nhận hàng, Napas, Visa, Chuyển Khoản</span>
+        </div>
     </div>
 </div>
 

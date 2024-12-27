@@ -15,7 +15,7 @@ include_once "../../config.php";
 
 <body>
     <h1>Danh sách danh mục</h1>
-    <a href="/BTL_Nhom2/modules/category/add.php" class="btn btn-success">Thêm danh mục</a>
+    <a href="../../modules/products/add.php" class="btn btn-success">Thêm danh mục</a>
     <?php
     $result = $con->query("SELECT * FROM categories");
     $count = 0;
