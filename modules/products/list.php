@@ -1,7 +1,7 @@
 <?php
 include_once "../../config.php";
 
-$result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category = c.id");
+$result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category = c.id ORDER BY p.id DESC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,7 @@ $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN 
 
 <body>
     <h2>Product List</h2>
-    <a href="/BTL_Nhom2/modules/products/add.php" class="btn btn-success mb-3">Add Product</a>
+    <a href="../../modules/products/add.php" class="btn btn-success mb-3">Add Product</a>
     <?php
     if ($result->num_rows > 0) {
         echo "<table class='table'>
@@ -51,8 +51,8 @@ $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN 
                         <td>" . $row['status'] . "</td>
                         <td><img src='" . $image_url . "' width='100'></td>
                         <td>
-                            <a href='../../modules/products/edit.php?id=" . $row['id'] . "' class='btn btn-primary'>Edit</a>
-                            <a href='../../modules/products/delete.php?id=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to delete this product?\")'>Delete</a>
+                            <a href='/BTL_Nhom2/modules/products/edit.php?id=" . $row['id'] . "' class='btn btn-primary'>Edit</a>
+                            <a href='/BTL_Nhom2/modules/products/delete.php?id=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to delete this product?\")'>Delete</a>
                         </td>
                       </tr>";
         }
