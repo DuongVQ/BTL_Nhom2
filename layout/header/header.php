@@ -30,7 +30,7 @@
         <div class="header-wrapper">
             <!-- logo -->
             <div class="logo">
-                <a href="#">
+                <a href="../../modules/dashboard/home.php">
                     <img itemprop="logo" src="//theme.hstatic.net/200000690725/1001078549/14/logo.png?v=603" alt="Torano" class="img-responsive logoimg ls-is-cached lazyloaded" width="180">
                 </a>
             </div>
@@ -66,18 +66,31 @@
             <!-- header action -->
             <div class="header-action">
                 <div class="header-search">
-                    <a href="#">
-                        <button class="header-action-btn">
-                            <box-icon name='search'></box-icon>
-                        </button>
-                    </a>
+                    <!-- Offcanvas Sidebar -->
+                    <div class="offcanvas offcanvas-top" id="search">
+                        <form action="../../layout/header/search.php" method="GET" class="d-flex">
+                            <div class="offcanvas-body d-flex justify-content-between align-items-center">
+                                <img itemprop="logo" src="//theme.hstatic.net/200000690725/1001078549/14/logo.png?v=603" alt="Torano" class="img-responsive logoimg ls-is-cached lazyloaded" width="180">
+                                <div class="d-flex align-items-center">
+                                    <input type="text" name="query" class="form-control header-search-input" placeholder="Tìm kiếm sản phẩm">
+                                    <button type="submit" class="header-action-btn">
+                                        <box-icon name='search'></box-icon>
+                                    </button>
+                                </div>
+                                <button type="button" class="header-action-btn" data-bs-dismiss="offcanvas">
+                                    <box-icon name='x'></box-icon>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <button class="header-action-btn" data-bs-toggle="offcanvas" data-bs-target="#search">
+                        <box-icon name='search'></box-icon>
+                    </button>
                 </div>
                 <div class="header-user">
-                    <a href="#">
-                        <button class="header-action-btn">
-                            <box-icon name='user'></box-icon>
-                        </button>
-                    </a>
+                    <button class="header-action-btn">
+                        <box-icon name='user'></box-icon>
+                    </button>
                 </div>
                 <div class="header-cart">
                     <button class="header-action-btn" data-bs-toggle="offcanvas" data-bs-target="#demo">

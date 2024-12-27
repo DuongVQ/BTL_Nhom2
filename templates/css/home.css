@@ -373,14 +373,13 @@
 }
 
 .tab-link:hover {
-    color: #000; 
+    color: #000;
 }
-
 
 .tab-link::before {
     content: '';
     position: absolute;
-    bottom: -5px; 
+    bottom: -5px;
     left: 50%;
     width: 0;
     height: 3px;
@@ -392,16 +391,15 @@
 
 .tab-link:hover::before,
 .tab-link.active::before {
-    width: 100%; 
+    width: 100%;
 }
 
 .tab-content .product-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); 
-    grid-gap: 30px; 
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 30px;
     padding: 20px 60px;
 }
-
 
 /* ========== thông tin hỗ trợ ========= */
 .support-information {
