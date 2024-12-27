@@ -1,4 +1,10 @@
-
+<?php
+if (!isset($_SESSION['role'])) {
+    header("Location:../../modules/dashboard/home.php");
+    exit;
+}
+include_once "../../config.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +32,7 @@
                     <td>Trạng thái</td>
                     <td>Create At</td>
                     <td>Update At</td>
+                    <td>Role</td>
                     <td>Thao tác</td>
                 </tr>
                 <?php
@@ -42,12 +49,20 @@
                 <td><?=$row['status']?></td>
                 <td><?=$row['create_at']?></td>
                 <td><?=$row['update_at']?></td>
-                <td><a class='btn btn-danger' href='/BTL_Nhom2/modules/category/delete.php?id=<?= $row['id'] ?>' onclick='return confirm("Are you sure you want to delete this category?")'>Xóa</a>
-                </td>
-
-            </tr>
-             
-               
+                <td><?=$row['role']?></td>
+                <?php
+                    if($row['role'] =="admin"){
+                        ?>
+                        <td></td>
+                        <?php
+                    }else{
+                        ?>
+                        <td><a class='btn btn-danger' href='../../modules/manager_user/delete.php?id=<?= $row['id'] ?>&lenh=close' onclick='return confirm("Bạn có chắc chắn muốn xóa người dùng này?")'>Xóa</a></td>
+                    <?php
+                    }
+                ?>
+                
+            </tr> 
             <?php
         }
         $con->close();

@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (!isset($_SESSION['role'])) {
+    header("Location:../../modules/dashboard/home.php");
+    exit;
+}
 include_once "../../config.php";
 ?>
 <!DOCTYPE html>
@@ -15,7 +18,7 @@ include_once "../../config.php";
 
 <body>
     <h1>Danh sách danh mục</h1>
-    <a href="../../modules/products/add.php" class="btn btn-success">Thêm danh mục</a>
+    <a href="../../modules/category/add.php" class="btn btn-success">Thêm danh mục</a>
     <?php
     $result = $con->query("SELECT * FROM categories");
     $count = 0;
@@ -36,8 +39,8 @@ include_once "../../config.php";
                 <td><img src='" . $row['image'] . "' width='100'></td>
                 <td>" . $row['description'] . "</td>
                 <td>
-                    <a href='/BTL_Nhom2/modules/category/edit.php?id=" . $row['id'] . "' class='btn btn-primary'>Sửa</a>
-                    <a href='/BTL_Nhom2/modules/category/delete.php?id=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Xóa</a>
+                    <a href='../../modules/category/edit.php?id=" . $row['id'] . "' class='btn btn-primary'>Sửa</a>
+                    <a href='../../modules/category/delete.php?id=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Xóa</a>
                 </td>
               </tr>";
         }

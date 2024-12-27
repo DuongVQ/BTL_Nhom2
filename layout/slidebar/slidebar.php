@@ -1,6 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<?php
+session_start();
+if (!isset($_SESSION['role'])) {
+    header("Location:../../modules/dashboard/home.php");
+    exit;
+}
+?>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -18,9 +25,6 @@
     <!-- Link Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/dist/boxicons.js" integrity="sha512-Dm5UxqUSgNd93XG7eseoOrScyM1BVs65GrwmavP0D0DujOA8mjiBfyj71wmI2VQZKnnZQsSWWsxDKNiQIqk8sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Link css -->
-    <link rel="stylesheet" href="../../templates/css/header.css">
-    <link rel="stylesheet" href="../../templates/css/home.css">
     <style>
     .slidebar {
         background-color: #383A3C;
@@ -89,6 +93,12 @@
                     Quản lý sản phẩm
                 </a>
             </li>
+            <li class="list-unstyled">
+                <a href="?page_layout=logout">
+                    <i class="fa fa-sign-out"></i>
+                    Đăng xuất
+                </a>
+            </li>
         </ul>
     </div>
     <div class="right ms-auto" style="margin-left: 250px; padding: 20px; width: calc(100% - 250px);">
@@ -106,6 +116,10 @@
                 case 'products';
                     include_once('../../modules/products/list.php');
                     break;
+                case 'logout';
+                    unset($_SESSION['role']);
+                    header("Location:../../modules/dashboard/home.php");
+                    break;       
             }
         }
         ?>
@@ -113,8 +127,7 @@
 </div>
 
 <style>
-    .right{
-        
+    .right{    
         display: block;
     }
 </style>

@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once "../../config.php";
 
 $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category = c.id ORDER BY p.id DESC");
