@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS manager_user.order_details (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id)
+    FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
 -- Tạo bảng CSDL token
