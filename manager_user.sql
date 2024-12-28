@@ -95,10 +95,12 @@ CREATE TABLE IF NOT EXISTS manager_user.cart (
 CREATE TABLE IF NOT EXISTS manager_user.orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+    shipment_id INT,
     status ENUM('Đang xử lý', 'Đang giao', 'Đã giao', 'Đã hủy') DEFAULT 'Đang xử lý',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (shipment_id) REFERENCES shipment(id)
 );
 
 -- Tạo bảng CSDL chi tiết đơn hàng
@@ -119,12 +121,16 @@ CREATE TABLE IF NOT EXISTS manager_user.order_details (
 -- Tạo bảng CSDL vận chuyển
 CREATE TABLE IF NOT EXISTS manager_user.shipment (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT NOT NULL,
+    user_id INT NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     phone VARCHAR(20) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    district VARCHAR(100) NOT NULL,
+    address TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(id)
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 -- Tạo bảng CSDL token

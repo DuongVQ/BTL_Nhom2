@@ -213,17 +213,18 @@ $con->close();
                 </div>
                 <button><a href="">Thêm vào giỏ hàng</a></button>
                 <button><a href="">Thanh toán ngay</a></button>
+                <a href=""></a>
             </div>
         </div>
         
     </main>
     <p><strong>Mô tả: </strong><?= nl2br(htmlspecialchars($product['description'])) ?></p>
-
-
-    
-
     
 
     
 </body>
 </html>
+
+<?php  
+include_once "../../layout/footer/footer.php";
+?>

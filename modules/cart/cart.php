@@ -1,27 +1,42 @@
 <?php
+session_start();
 include_once '../../config.php';
 include_once '../../layout/header/header.php';
 
-// Số lượng sản phẩm trong giỏ hàng
-$cartCountQuery = "SELECT COUNT(*) as count FROM cart";
-$result = $con->query($cartCountQuery);
-$cartCount = 0;
+$user_id = $_SESSION['login'] ?? null;
 
-if ($result && $row = $result->fetch_assoc()) {
-    $cartCount = $row['count'];
-}
+if ($user_id) {
+    // Số lượng sản phẩm trong giỏ hàng
+    $cartCountQuery = "SELECT COUNT(*) as count FROM cart WHERE user_id = ?";
+    $stmt = $con->prepare($cartCountQuery);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $cartCount = 0;
 
-// Danh sách sản phẩm trong giỏ hàng
-$cartItemsQuery = "SELECT * FROM cart";
-$cartItemsResult = $con->query($cartItemsQuery);
-$cartItems = [];
-$totalPrice = 0;
-
-if ($cartItemsResult) {
-    while ($row = $cartItemsResult->fetch_assoc()) {
-        $cartItems[] = $row;
-        $totalPrice += $row['price'] * $row['quantity'];
+    if ($result && $row = $result->fetch_assoc()) {
+        $cartCount = $row['count'];
     }
+
+    // Danh sách sản phẩm trong giỏ hàng
+    $cartItemsQuery = "SELECT * FROM cart WHERE user_id = ?";
+    $stmt = $con->prepare($cartItemsQuery);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $cartItemsResult = $stmt->get_result();
+    $cartItems = [];
+    $totalPrice = 0;
+
+    if ($cartItemsResult) {
+        while ($row = $cartItemsResult->fetch_assoc()) {
+            $cartItems[] = $row;
+            $totalPrice += $row['price'] * $row['quantity'];
+        }
+    }
+} else {
+    $cartCount = 0;
+    $cartItems = [];
+    $totalPrice = 0;
 }
 ?>
 <div class="wrapper-cart">
@@ -63,7 +78,7 @@ if ($cartItemsResult) {
                     <li class="text-secondary" style="font-size: 12px;">Phí vận chuyển sẽ được tính ở trang thanh toán.</li>
                     <li class="text-secondary" style="font-size: 12px;">Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</li>
                 </ul>
-                <a href="checkout.php" class="btn w-100 text-white rounded-0" style="box-shadow:none; background-color: red; font-size: 14px; cursor: pointer;">Thanh toán</a>
+                <a href="../../modules/checkout/viewCheckout.php" class="btn w-100 text-white rounded-0" style="box-shadow:none; background-color: red; font-size: 14px; cursor: pointer;">Thanh toán</a>
             </div>
         </div>
     <?php else: ?>
