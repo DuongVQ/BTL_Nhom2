@@ -105,7 +105,6 @@ if (!isset($_SESSION['role'])) {
                     Đăng xuất
                 </a>
             </li>
-            
         </ul>
     </div>
     <div class="right ms-auto" style="margin-left: 250px; padding: 20px; width: calc(100% - 250px);">
@@ -123,9 +122,11 @@ if (!isset($_SESSION['role'])) {
                 case 'products';
                     include_once('../../modules/products/list.php');
                     break;
+
                 case 'orders';
                     include_once('../../modules/orders/list.php');
                     break;
+                
                 case 'logout';
                     unset($_SESSION['role']);
                     header("Location:../../modules/dashboard/home.php");

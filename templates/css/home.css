@@ -348,3 +348,85 @@
 .product-sale .see-more button:hover {
     color: #ff003c;
 }
+
+/* ========== Tab menu ========== */
+/* Tab menu */
+.tab-menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.tab-link {
+    padding: 10px 20px;
+    margin: 0 5px;
+    font-size: 26px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    position: relative;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.tab-link:hover {
+    color: #000;
+}
+
+.tab-link::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    border-radius: 5px;
+    background-color: #000;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.tab-link:hover::before,
+.tab-link.active::before {
+    width: 100%;
+}
+
+.tab-content .product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 30px;
+    padding: 20px 60px;
+}
+
+/* ========== thông tin hỗ trợ ========= */
+.support-information {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 50px;
+    gap: 0 30px;
+}
+
+.item-support-information {
+    display: flex;
+    flex: 1;
+}
+
+.item-support-information img {
+    width: 48px;
+    height: 48px;
+}
+
+.info-item-support-information {
+    padding-left: 15px;
+}
+
+.info-item-support-information h3 {
+    font-size: 16px;
+}
+
+.info-item-support-information span {
+    font-size: 13px;
+}

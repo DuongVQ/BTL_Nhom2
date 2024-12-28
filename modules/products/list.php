@@ -1,7 +1,8 @@
 <?php
 include_once "../../config.php";
+include_once "../../layout/slidebar/slidebar.php";
 
-$result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category = c.id");
+$result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category = c.id ORDER BY p.id DESC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,7 @@ $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN 
 
 <body>
     <h2>Product List</h2>
-    <a href="/BTL_Nhom2/modules/products/add.php" class="btn btn-success mb-3">Add Product</a>
+    <a href="../../modules/products/add.php" class="btn btn-success mb-3">Add Product</a>
     <?php
     if ($result->num_rows > 0) {
         echo "<table class='table'>

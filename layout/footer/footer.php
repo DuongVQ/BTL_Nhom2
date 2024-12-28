@@ -1,3 +1,8 @@
+<?php
+session_start();
+$user_id = $_SESSION['login'] ?? null;
+?>
+
 <!-- FOOTER -->
 <footer>
     <div class="list-item-footer">
@@ -169,5 +174,84 @@
             el: '.swiper-pagination',
             clickable: true,
         },
+    });
+
+    // Modal
+    document.addEventListener("DOMContentLoaded", () => {
+        const userId = <?= json_encode($user_id) ?>;
+        console.log(userId);
+        
+        document.querySelectorAll(".addCart, .quick-view").forEach((button) => {
+            button.addEventListener("click", (event) => {
+                const productElement = event.target.closest(".item-product");
+
+                const productName = productElement.querySelector(".name-product").textContent;
+                const productCode = productElement.dataset.productId || "N/A";
+                const productPrice = productElement.querySelector(".new").textContent;
+                const productOldPrice = productElement.querySelector(".old")?.textContent || "N/A";
+                const productDiscount = productElement.querySelector(".sale")?.textContent || "0";
+                const productColors = productElement.dataset.colors || "Không có";
+                const productSizes = productElement.dataset.sizes || "Không có";
+                const productImage = productElement.querySelector(".img-product img").src;
+
+                document.getElementById("productModalTitle").textContent = productName;
+                document.getElementById("productModalCode").textContent = productCode;
+                document.getElementById("productModalPrice").textContent = productPrice;
+                document.getElementById("productModalOldPrice").textContent = productOldPrice;
+                document.getElementById("productModalDiscount").textContent = productDiscount;
+                document.getElementById("productModalImage").src = productImage;
+
+                document.getElementById("productModalCodeInput").value = productCode;
+                document.getElementById("productModalNameInput").value = productName;
+                document.getElementById("productModalImageInput").value = productImage;
+                document.getElementById("productModalPriceInput").value = productPrice;
+                document.getElementById("productModalOldPriceInput").value = productOldPrice;
+                document.getElementById("productModalUserIdInput").value = userId;
+                
+                const colorButtons = document.getElementById("productModalColorButtons");
+                colorButtons.innerHTML = productColors.split(',').map(color => `
+                <input type="radio" class="btn-check" name="color" id="color-${color.trim()}" value="${color.trim()}" autocomplete="off">
+                <label class="btn btn-outline-primary" for="color-${color.trim()}">${color.trim()}</label>
+            `).join('');
+
+                const sizeButtons = document.getElementById("productModalSizeButtons");
+                sizeButtons.innerHTML = productSizes.split(',').map(size => `
+                <input type="radio" class="btn-check" name="size_product" id="size-${size.trim()}" value="${size.trim()}" autocomplete="off">
+                <label class="btn btn-outline-primary" for="size-${size.trim()}">${size.trim()}</label>
+            `).join('');
+
+                new bootstrap.Modal(document.getElementById("productModal")).show();
+            });
+        });
+
+        const quantityInput = document.getElementById("productModalQuantity");
+        document.getElementById("quantityIncrease").addEventListener("click", () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        });
+        document.getElementById("quantityDecrease").addEventListener("click", () => {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        });
+    });
+
+    // Lấy tất cả các tab link và nội dung tab
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    // Thêm sự kiện click cho mỗi tab link
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Xóa class 'active' khỏi tất cả các tab link
+            tabLinks.forEach(link => link.classList.remove('active'));
+            // Thêm class 'active' vào tab link được click
+            this.classList.add('active');
+
+            // Ẩn tất cả các tab pane
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            // Hiển thị tab pane tương ứng với tab link được click
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
     });
 </script>
