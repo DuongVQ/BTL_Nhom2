@@ -181,7 +181,7 @@ if ($cartItemsResult) {
                                 </ul>
                                 <div class="mt-3 position-absolute bottom-0 start-0 w-100 p-2 border-top">
                                     <div class="d-flex justify-content-between w-100"><p>Thành tiền:</p><p><?= number_format($totalPrice, 0, ',', '.') . 'đ'?></p></div>
-                                    <a href="checkout.php" class="btn w-100 text-white" style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
+                                    <a href="../../modules/order/viewOrder.php" class="btn w-100 text-white" style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
                                     <a href="#" style="font-size: 12px; text-decoration:underline;">Xem giỏ hàng</a>
                                 </div>
                             <?php else: ?>

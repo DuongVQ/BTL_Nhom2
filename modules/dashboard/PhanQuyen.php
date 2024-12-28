@@ -11,7 +11,15 @@ $stmt = $con->prepare($sql);
 $stmt->bind_param("ss", $email, $password);
 $stmt->execute();
 $result = $stmt->get_result();
-
+// Lưu User_id vào session - NHD
+$sqlUser = "SELECT * FROM user WHERE `email`='$email' ";
+$resultUser = mysqli_query($con, $sqlUser);
+if(mysqli_num_rows($resultUser) > 0){
+    $arrUser = mysqli_fetch_array($resultUser);
+    if($arrUser["email"]){
+        $_SESSION["user_id"] = $arrUser["id"];
+    }
+}
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $_SESSION['role'] = $row['role'];
@@ -29,6 +37,7 @@ if ($result->num_rows > 0) {
     header("Location:login.php"); // Điều hướng về trang đăng nhập
     exit;
 }
+
 $con->close();
 ?>
 
