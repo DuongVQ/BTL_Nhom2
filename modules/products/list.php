@@ -17,7 +17,7 @@ $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN 
 
 <body>
     <h2>Product List</h2>
-    <a href="../../modules/products/add.php" class="btn btn-success mb-3">Add Product</a>
+    <a href="../../layout/slidebar/slidebar.php?page_layout=addproduct" class="btn btn-success mb-3">Add Product</a>
     <?php
     if ($result->num_rows > 0) {
         echo "<table class='table'>

@@ -18,6 +18,6 @@ if ($con->query("DELETE FROM user WHERE id='$id'") === TRUE) {
 
 $con->close();
 
-header("Location:../../layout/slidebar/slidebar.php");
+header("Location:../../layout/slidebar/slidebar.php?page_layout=user");
 exit();
 ?>

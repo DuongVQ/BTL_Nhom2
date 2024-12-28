@@ -86,6 +86,9 @@
       </div>
     </div>
 
+    <div class="col">
+      <!-- Simple link -->
+      <a href="../../modules/user/forgot-password.php">Forgot password?</a>
     <!-- Submit button -->
     <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-100">Đăng nhập</button>
 

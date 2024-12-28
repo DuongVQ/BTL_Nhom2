@@ -17,7 +17,7 @@ $con->query("DELETE FROM product_sizes WHERE product_id = $product_id");
 $con->query("DELETE FROM products WHERE id = $product_id");
 
 $_SESSION['message'] = "Product deleted successfully!";
-header("Location: list.php");
+header("Location:../../layout/slidebar/slidebar.php?page_layout=products");
 exit();
 
 $con->close();
