@@ -63,6 +63,9 @@ if ($user_id) {
     <link rel="stylesheet" href="../../templates/css/home.css">
     <link rel="stylesheet" href="../../templates/css/cart.css">
     <link rel="stylesheet" href="../../templates/css/footer.css">
+    <link rel="stylesheet" href="../../templates/css/orderDetails.css">
+    <link rel="stylesheet" href="../../templates/css/inforUser.css">
+    <link rel="stylesheet" href="../../templates/css/listOrdered.css">
 </head>
 
 <body>
