@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS manager_user.product_sizes (
 -- Tạo bảng CSDL giỏ hàng
 CREATE TABLE IF NOT EXISTS manager_user.cart (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     product_id INT NOT NULL,
     product_name VARCHAR(255) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
@@ -86,7 +87,44 @@ CREATE TABLE IF NOT EXISTS manager_user.cart (
     size_product VARCHAR(100),
     quantity INT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- Tạo bảng CSDL đơn hàng
+CREATE TABLE IF NOT EXISTS manager_user.orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    status ENUM('Đang xử lý', 'Đang giao', 'Đã giao', 'Đã hủy') DEFAULT 'Đang xử lý',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+-- Tạo bảng CSDL chi tiết đơn hàng
+CREATE TABLE IF NOT EXISTS manager_user.order_details (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    price_product DECIMAL(10,2) NOT NULL,
+    quantity INT DEFAULT 1,
+    total DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+-- Tạo bảng CSDL vận chuyển
+CREATE TABLE IF NOT EXISTS manager_user.shipment (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    fullname VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
 -- Tạo bảng CSDL token
