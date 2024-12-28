@@ -82,36 +82,34 @@
 
       <div class="col">
         <!-- Simple link -->
-        <a href="#!">Forgot password?</a>
+        <a href="../../modules/user/forgot-password.php">Forgot password?</a>
       </div>
     </div>
 
     <div class="col">
-      <!-- Simple link -->
-      <a href="../../modules/user/forgot-password.php">Forgot password?</a>
-    <!-- Submit button -->
-    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-100">Đăng nhập</button>
+      <!-- Submit button -->
+      <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-100">Đăng nhập</button>
 
-    <!-- Register buttons -->
-    <div class="text-center">
-      <p>Not a member? <a href="/BTL_Nhom2/modules/user/register.php">Register</a></p>
-      <p>or sign up with:</p>
-      <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-        <i class="fab fa-facebook-f"></i>
-      </button>
+      <!-- Register buttons -->
+      <div class="text-center">
+        <p>Not a member? <a href="/BTL_Nhom2/modules/user/register.php">Register</a></p>
+        <p>or sign up with:</p>
+        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+          <i class="fab fa-facebook-f"></i>
+        </button>
 
-      <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-        <i class="fab fa-google"></i>
-      </button>
+        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+          <i class="fab fa-google"></i>
+        </button>
 
-      <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-        <i class="fab fa-twitter"></i>
-      </button>
+        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+          <i class="fab fa-twitter"></i>
+        </button>
 
-      <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-        <i class="fab fa-github"></i>
-      </button>
-    </div>
+        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+          <i class="fab fa-github"></i>
+        </button>
+      </div>
   </form>
 </body>
 
