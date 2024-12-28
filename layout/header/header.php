@@ -1,26 +1,41 @@
 <?php
+session_start();
 include_once '../../config.php';
 
-// Số lượng sản phẩm trong giỏ hàng
-$cartCountQuery = "SELECT COUNT(*) as count FROM cart";
-$result = $con->query($cartCountQuery);
-$cartCount = 0;
+$user_id = $_SESSION['login'] ?? null;
 
-if ($result && $row = $result->fetch_assoc()) {
-    $cartCount = $row['count'];
-}
+if ($user_id) {
+    // Số lượng sản phẩm trong giỏ hàng
+    $cartCountQuery = "SELECT COUNT(*) as count FROM cart WHERE user_id = ?";
+    $stmt = $con->prepare($cartCountQuery);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $cartCount = 0;
 
-// Danh sách sản phẩm trong giỏ hàng
-$cartItemsQuery = "SELECT * FROM cart";
-$cartItemsResult = $con->query($cartItemsQuery);
-$cartItems = [];
-$totalPrice = 0;
-
-if ($cartItemsResult) {
-    while ($row = $cartItemsResult->fetch_assoc()) {
-        $cartItems[] = $row;
-        $totalPrice += $row['price'] * $row['quantity'];
+    if ($result && $row = $result->fetch_assoc()) {
+        $cartCount = $row['count'];
     }
+
+    // Danh sách sản phẩm trong giỏ hàng
+    $cartItemsQuery = "SELECT * FROM cart WHERE user_id = ?";
+    $stmt = $con->prepare($cartItemsQuery);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $cartItemsResult = $stmt->get_result();
+    $cartItems = [];
+    $totalPrice = 0;
+
+    if ($cartItemsResult) {
+        while ($row = $cartItemsResult->fetch_assoc()) {
+            $cartItems[] = $row;
+            $totalPrice += $row['price'] * $row['quantity'];
+        }
+    }
+} else {
+    $cartCount = 0;
+    $cartItems = [];
+    $totalPrice = 0;
 }
 ?>
 <!DOCTYPE html>
@@ -203,6 +218,11 @@ if ($cartItemsResult) {
                                     </div>
                                     <a href="checkout.php" class="btn w-100 text-white" style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
                                     <a href="../../modules/cart/cart.php" style="font-size: 12px; text-decoration:underline;">Xem giỏ hàng</a>
+
+                                    <div class="d-flex justify-content-between w-100"><p>Thành tiền:</p><p><?= number_format($totalPrice, 0, ',', '.') . 'đ'?></p></div>
+                                    <a href="../../modules/order/viewOrder.php" class="btn w-100 text-white" style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
+                                    <a href="#" style="font-size: 12px; text-decoration:underline;">Xem giỏ hàng</a>
+
                                 </div>
                             <?php else: ?>
                                 <p>Giỏ hàng của bạn trống.</p>

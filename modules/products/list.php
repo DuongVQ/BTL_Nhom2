@@ -1,5 +1,6 @@
 <?php
 include_once "../../config.php";
+include_once "../../layout/slidebar/slidebar.php";
 
 $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category = c.id ORDER BY p.id DESC");
 ?>

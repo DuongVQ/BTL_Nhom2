@@ -1,3 +1,9 @@
+<?php
+session_start();
+$user_id = $_SESSION['login'] ?? null;
+?>
+
+
 <div id="productModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -7,6 +13,7 @@
             </div>
             <div class="modal-body">
                 <form id="addToCartForm" method="POST" action="../../modules/cart/add-to-cart.php">
+                    <input type="hidden" name="user_id" id="productModalUserIdInput" value="<?= htmlspecialchars($user_id) ?>">
                     <div class="d-flex">
                         <!-- Hình ảnh sản phẩm -->
                         <img id="productModalImage" src="" alt="Sản phẩm" class="me-3" style="width: 200px; height: 200px; object-fit: cover;">

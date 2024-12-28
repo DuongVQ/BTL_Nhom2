@@ -29,6 +29,7 @@ if ($result->num_rows > 0) {
     header("Location:login.php"); // Điều hướng về trang đăng nhập
     exit;
 }
+
 $con->close();
 ?>
 
