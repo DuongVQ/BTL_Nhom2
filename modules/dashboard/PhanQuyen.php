@@ -11,14 +11,13 @@ $stmt = $con->prepare($sql);
 $stmt->bind_param("ss", $email, $password);
 $stmt->execute();
 $result = $stmt->get_result();
-
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $_SESSION['role'] = $row['role'];
 
     // Điều hướng dựa trên vai trò
     if ($row['role'] == 'admin') {
-        header("Location:/BTL_Nhom2/layout/slidebar/slidebar.php");
+        header("Location:../../layout/slidebar/slidebar.php");
     } else {
         header("Location:home.php");
     }
