@@ -72,7 +72,7 @@
 
     <div class="col">
       <!-- Simple link -->
-      <a href="#!">Forgot password?</a>
+      <a href="../../modules/user/forgot-password.php">Forgot password?</a>
     </div>
   </div>
 

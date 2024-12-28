@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once "../../layout/header/header.php";
 include_once "../../config.php";
 include_once "../../includes/function.php";

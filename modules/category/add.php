@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +21,7 @@ session_start();
         <textarea name="description" class="form-control"></textarea>
 
         <button type="submit" class="btn btn-primary">Lưu</button>
-        <a href="list.php" class="btn btn-secondary">Quay lại</a>
+        <a href="../../layout/slidebar/slidebar.php?page_layout=category" class="btn btn-secondary">Quay lại</a>
     </form>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>

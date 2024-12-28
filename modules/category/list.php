@@ -1,8 +1,4 @@
 <?php
-if (!isset($_SESSION['role'])) {
-    header("Location:../../modules/dashboard/home.php");
-    exit;
-}
 include_once "../../config.php";
 ?>
 <!DOCTYPE html>
