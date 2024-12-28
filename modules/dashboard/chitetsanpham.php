@@ -212,7 +212,7 @@ $con->close();
                     </p>
                 </div>
                 <button><a href="">Thêm vào giỏ hàng</a></button>
-                <button><a href="">Thanh toán ngay</a></button>
+                <button ><a href="">Thanh toán ngay</a></button>
             </div>
         </div>
         
