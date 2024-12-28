@@ -11,6 +11,7 @@ $stmt = $con->prepare($sql);
 $stmt->bind_param("ss", $email, $password);
 $stmt->execute();
 $result = $stmt->get_result();
+
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $_SESSION['login'] = $row['id'];
@@ -29,6 +30,7 @@ if ($result->num_rows > 0) {
     header("Location:login.php"); // Điều hướng về trang đăng nhập
     exit;
 }
+
 $con->close();
 ?>
 
