@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once "../../config.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -52,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $_SESSION['message'] = "Product added successfully!";
-    header("Location: list.php");
+    header("Location:../../layout/slidebar/slidebar.php?page_layout=products");
     exit();
 }
 
@@ -129,6 +128,7 @@ $con->close();
                 <input type="text" class="form-control" id="sizes" name="sizes" placeholder="Enter sizes separated by commas">
             </div>
             <button type="submit" class="btn btn-primary">Add Product</button>
+            <a href="../../layout/slidebar/slidebar.php?page_layout=products" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>

@@ -22,27 +22,93 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: auto;
             margin: 0;
             font-family: 'Montserrat', sans-serif;
             background-color: #f8f9fa;
         }
         form {
-            width: 100%;
-            max-width: 400px;
+            width: 500px;
+            max-width: 500px;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
             background-color: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: auto;
+        }
+        h3{
+          margin-top: -10px;
+          font-size: 35px;
+          margin-top: 40px;
         }
     </style>
 </head>
 <body>
 
-<form action="resiter.php" method ="post">
+<form action="register.php" method ="post">
+<?php
+
+
+$url = "localhost";
+$uname = "root";
+$upass = "";
+$dbname = "manager_user";
+
+$con = new mysqli($url, $uname, $upass, $dbname);
+
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fullname = htmlspecialchars(trim($_POST['fullname']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $phone = htmlspecialchars(trim($_POST['phone']));
+    $password = htmlspecialchars(trim($_POST['password']));
+    $confirm_password = htmlspecialchars(trim($_POST['repeatPass']));
+    $role = "customer"; // Default role
+    $status = 1; 
+    $create_at = date('Y-m-d H:i:s');
+    $update_at = date('Y-m-d H:i:s');
+
+    // Validate input fields
+    if (empty($fullname) || empty($email) || empty($phone) || empty($password) || empty($confirm_password)) {
+        echo "<script>alert('Bạn cần nhập đủ thông tin !');</script>";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Định dạng email không đúng !');</script>";
+    } elseif ($password !== $confirm_password) {
+        echo "<script>alert('Xác thục mật khẩu không đúng !');</script>";
+    } else {
+        // Check if email already exists
+        $check_email = $con->prepare("SELECT id FROM user WHERE email = ?");
+        $check_email->bind_param("s", $email);
+        $check_email->execute();
+        $check_email->store_result();
+
+        if ($check_email->num_rows > 0) {
+            echo "<script>alert('Email đã tồn tại');</script>";
+        } else {
+            // Insert the plain password into the database
+            $stmt = $con->prepare("INSERT INTO user (fullname, email, phone, password, status, create_at, update_at, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssisss", $fullname, $email, $phone, $password, $status, $create_at, $update_at, $role);
+
+            if ($stmt->execute()) {
+                echo "<script>alert('Bạn đã tạo tài khoản thành công'); window.location.href = '../../modules/dashboard/home.php';</script>";
+            } else {
+                echo "<script>alert('Error occurred: " . $stmt->error . "');</script>";
+            }
+
+            $stmt->close();
+        }
+    }
+}
+?>
+
+
+
   <!-- Email input -->
-  <h3 class="text-uppercase text-center mb-5">Create an account</h3>
+  <h3 class="text-uppercase text-center mb-5"><b>Create an account</b></h3>
   <div data-mdb-input-init class="form-outline mb-4">
   <label class="form-label" for="form2Example1">Your name</label>
   <input type="text" id="form2Example1" class="form-control" name ="fullname"/>
@@ -72,7 +138,7 @@
   </div>
 
   <!-- Submit button -->
-  <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Đăng ký</button>
+  <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Register</button>
 
   <!-- Register buttons -->
   <div class="text-center">

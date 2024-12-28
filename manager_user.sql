@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS manager_user.product_sizes (
 -- Tạo bảng CSDL giỏ hàng
 CREATE TABLE IF NOT EXISTS manager_user.cart (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     product_id INT NOT NULL,
     product_name VARCHAR(255) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
@@ -86,6 +87,7 @@ CREATE TABLE IF NOT EXISTS manager_user.cart (
     size_product VARCHAR(100),
     quantity INT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
@@ -111,6 +113,17 @@ CREATE TABLE IF NOT EXISTS manager_user.order_details (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+-- Tạo bảng CSDL vận chuyển
+CREATE TABLE IF NOT EXISTS manager_user.shipment (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    fullname VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 

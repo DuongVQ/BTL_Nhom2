@@ -25,7 +25,6 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $_SESSION['login'] = $row['id'];
-    $_SESSION['role'] = $row['role'];
 
     // Điều hướng dựa trên vai trò
     if ($row['role'] == 'admin') {

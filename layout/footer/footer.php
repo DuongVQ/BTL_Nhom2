@@ -1,3 +1,8 @@
+<?php
+session_start();
+$user_id = $_SESSION['login'] ?? null;
+?>
+
 <!-- FOOTER -->
 <footer>
     <div class="list-item-footer">
@@ -173,6 +178,9 @@
 
     // Modal
     document.addEventListener("DOMContentLoaded", () => {
+        const userId = <?= json_encode($user_id) ?>;
+        console.log(userId);
+        
         document.querySelectorAll(".addCart, .quick-view").forEach((button) => {
             button.addEventListener("click", (event) => {
                 const productElement = event.target.closest(".item-product");
@@ -198,7 +206,8 @@
                 document.getElementById("productModalImageInput").value = productImage;
                 document.getElementById("productModalPriceInput").value = productPrice;
                 document.getElementById("productModalOldPriceInput").value = productOldPrice;
-
+                document.getElementById("productModalUserIdInput").value = userId;
+                
                 const colorButtons = document.getElementById("productModalColorButtons");
                 colorButtons.innerHTML = productColors.split(',').map(color => `
                 <input type="radio" class="btn-check" name="color" id="color-${color.trim()}" value="${color.trim()}" autocomplete="off">

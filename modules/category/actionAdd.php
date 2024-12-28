@@ -25,6 +25,6 @@ if (isset($con)) {
     die("Database connection failed.");
 }
 
-header("Location: add.php");
+header("Location:../../layout/slidebar/slidebar.php?page_layout=category");
 exit();
 ?>

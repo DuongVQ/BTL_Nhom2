@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $con->query("UPDATE categories SET name='$name', image='$image', description='$description' WHERE id='$id'");
     $_SESSION['message'] = "Category updated successfully!";
-    header("Location: list.php");
+    header("Location:../../layout/slidebar/slidebar.php?page_layout=category");
     exit();
 }
 
@@ -66,7 +66,7 @@ $con->close();
                 <img src="<?php echo $row['image']; ?>" width="100" alt="Current Image">
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
-            <a href="list.php" class="btn btn-secondary">Back</a>
+            <a href="../../layout/slidebar/slidebar.php?page_layout=category" class="btn btn-secondary">Back</a>
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>

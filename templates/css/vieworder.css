@@ -1,0 +1,15 @@
+.main{
+    display: flex;
+}
+
+.it-vc {
+    display: flex;
+}
+
+.it-lb{
+    display: flex;
+    justify-content: space-around;
+}
+.it-tt{
+    display: flex;
+}

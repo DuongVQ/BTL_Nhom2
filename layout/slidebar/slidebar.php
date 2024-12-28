@@ -89,8 +89,14 @@ if (!isset($_SESSION['role'])) {
             </li>
             <li class="list-unstyled">
                 <a href="?page_layout=products">
-                    <i class="fa-solid fa-box-archive"></i>
+                    <i class="fas fa-tshirt"></i>
                     Quản lý sản phẩm
+                </a>
+            </li>
+            <li class="list-unstyled">
+                <a href="?page_layout=orders">
+                    <i class="	far fa-file-alt"></i>
+                    Quản lý hóa đơn
                 </a>
             </li>
             <li class="list-unstyled">
@@ -116,8 +122,16 @@ if (!isset($_SESSION['role'])) {
                 case 'products';
                     include_once('../../modules/products/list.php');
                     break;
+                case 'addproduct';
+                    include_once('../../modules/products/add.php');
+                    break;
+
+                case 'orders';
+                    include_once('../../modules/orders/list.php');
+                    break;
+                
                 case 'logout';
-                    unset($_SESSION['role']);
+                    unset($_SESSION['login']);
                     header("Location:../../modules/dashboard/home.php");
                     break;       
             }

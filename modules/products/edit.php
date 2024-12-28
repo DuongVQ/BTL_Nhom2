@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $_SESSION['message'] = "Product updated successfully!";
-    header("Location: list.php");
+    header("Location:../../layout/slidebar/slidebar.php?page_layout=products");
     exit();
 }
 
@@ -156,6 +156,7 @@ $con->close();
                 <input type="text" class="form-control" id="sizes" name="sizes" value="<?= implode(', ', $sizes) ?>" placeholder="Enter sizes separated by commas">
             </div>
             <button type="submit" class="btn btn-primary">Update Product</button>
+            <a href="../../layout/slidebar/slidebar.php?page_layout=products" class="btn btn-secondary">Back</a>
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>

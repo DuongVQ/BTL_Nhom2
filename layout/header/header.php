@@ -1,26 +1,41 @@
 <?php
+session_start();
 include_once '../../config.php';
 
-// Số lượng sản phẩm trong giỏ hàng
-$cartCountQuery = "SELECT COUNT(*) as count FROM cart";
-$result = $con->query($cartCountQuery);
-$cartCount = 0;
+$user_id = $_SESSION['login'] ?? null;
 
-if ($result && $row = $result->fetch_assoc()) {
-    $cartCount = $row['count'];
-}
+if ($user_id) {
+    // Số lượng sản phẩm trong giỏ hàng
+    $cartCountQuery = "SELECT COUNT(*) as count FROM cart WHERE user_id = ?";
+    $stmt = $con->prepare($cartCountQuery);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $cartCount = 0;
 
-// Danh sách sản phẩm trong giỏ hàng
-$cartItemsQuery = "SELECT * FROM cart";
-$cartItemsResult = $con->query($cartItemsQuery);
-$cartItems = [];
-$totalPrice = 0;
-
-if ($cartItemsResult) {
-    while ($row = $cartItemsResult->fetch_assoc()) {
-        $cartItems[] = $row;
-        $totalPrice += $row['price'] * $row['quantity'];
+    if ($result && $row = $result->fetch_assoc()) {
+        $cartCount = $row['count'];
     }
+
+    // Danh sách sản phẩm trong giỏ hàng
+    $cartItemsQuery = "SELECT * FROM cart WHERE user_id = ?";
+    $stmt = $con->prepare($cartItemsQuery);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $cartItemsResult = $stmt->get_result();
+    $cartItems = [];
+    $totalPrice = 0;
+
+    if ($cartItemsResult) {
+        while ($row = $cartItemsResult->fetch_assoc()) {
+            $cartItems[] = $row;
+            $totalPrice += $row['price'] * $row['quantity'];
+        }
+    }
+} else {
+    $cartCount = 0;
+    $cartItems = [];
+    $totalPrice = 0;
 }
 ?>
 <!DOCTYPE html>
@@ -117,35 +132,51 @@ if ($cartItemsResult) {
                     </button>
                 </div>
                 <div class="header-user">
-                    <button class="header-action-btn header-user-parent">
-                        <box-icon name='user'></box-icon>
-                        <div class="header-user-secondary">
-                            <a href="../../modules/inforUser/inforUser.php">
-                                <div class="item-header-user-secondary">
-                                    <box-icon type='solid' name='user'></box-icon>
-                                    Thông tin cá nhân
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="item-header-user-secondary">
-                                    <box-icon type='solid' name='box'></box-icon>
-                                    Đơn hàng của tôi
-                                </div>
-                            </a>
-                            <a href="../../modules/listOrdered/listOrdered.php">
-                                <div class="item-header-user-secondary">
-                                    <box-icon name='history'></box-icon>
-                                    Lịch sử đặt hàng
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="item-header-user-secondary" style="border-top: 1px solid #ccc;">
-                                    <box-icon name='log-out'></box-icon>
-                                    Đăng xuất
-                                </div>
-                            </a>
-                        </div>
-                    </button>
+                    <?php
+                    if (!isset($_SESSION['login'])) {
+                    ?>
+                        <a href="../../modules/dashboard/login.php">
+                            <div class="item-header-user-secondary">
+                                <box-icon name='log-in'></box-icon>
+                                Đăng nhập
+                            </div>
+                        </a>
+                    <?php
+                    } else {
+                    ?>
+                        <button class="header-action-btn header-user-parent">
+                            <box-icon name='user'></box-icon>
+                            <div class="header-user-secondary">
+                                <a href="../../modules/user/info.php">
+                                    <div class="item-header-user-secondary">
+                                        <box-icon type='solid' name='user'></box-icon>
+                                        Thông tin cá nhân
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="item-header-user-secondary">
+                                        <box-icon type='solid' name='box'></box-icon>
+                                        Đơn hàng của tôi
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="item-header-user-secondary">
+                                        <box-icon name='history'></box-icon>
+                                        Lịch sử đặt hàng
+                                    </div>
+                                </a>
+                                <a href="../../modules/user/logout.php">
+                                    <div class="item-header-user-secondary" style="border-top: 1px solid #ccc;">
+                                        <box-icon name='log-out'></box-icon>
+                                        Đăng xuất
+                                    </div>
+                                </a>
+                            <?php
+                        }
+                            ?>
+
+                            </div>
+                        </button>
                 </div>
                 <div class="header-cart">
                     <button class="header-action-btn" data-bs-toggle="offcanvas" data-bs-target="#demo" style="position: relative;">
@@ -184,9 +215,17 @@ if ($cartItemsResult) {
                                     <?php endforeach; ?>
                                 </ul>
                                 <div class="mt-3 position-absolute bottom-0 start-0 w-100 p-2 border-top">
-                                    <div class="d-flex justify-content-between w-100"><p>Thành tiền:</p><p><?= number_format($totalPrice, 0, ',', '.') . 'đ'?></p></div>
+                                    <div class="d-flex justify-content-between w-100">
+                                        <p>Thành tiền:</p>
+                                        <p><?= number_format($totalPrice, 0, ',', '.') . 'đ' ?></p>
+                                    </div>
                                     <a href="checkout.php" class="btn w-100 text-white" style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
                                     <a href="../../modules/cart/cart.php" style="font-size: 12px; text-decoration:underline;">Xem giỏ hàng</a>
+
+                                    <div class="d-flex justify-content-between w-100"><p>Thành tiền:</p><p><?= number_format($totalPrice, 0, ',', '.') . 'đ'?></p></div>
+                                    <a href="../../modules/order/viewOrder.php" class="btn w-100 text-white" style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
+                                    <a href="#" style="font-size: 12px; text-decoration:underline;">Xem giỏ hàng</a>
+
                                 </div>
                             <?php else: ?>
                                 <p>Giỏ hàng của bạn trống.</p>
