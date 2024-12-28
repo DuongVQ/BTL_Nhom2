@@ -153,6 +153,7 @@ a {
     font-size: 16px;
     color: #222;
     gap: 10px;
+    cursor: pointer;
 }
 
 .item-header-user-secondary:hover {

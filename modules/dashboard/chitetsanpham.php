@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once "../../config.php"; 
 include_once "../../layout/header/header.php";
 $product_id = isset($_GET['id']) ? $_GET['id'] : null;
@@ -211,8 +212,8 @@ $con->close();
                         ?>
                     </p>
                 </div>
-                <button><a href="">Thêm vào giỏ hàng</a></button>
-                <button><a href="">Thanh toán ngay</a></button>
+                <button><a href="#">Thêm vào giỏ hàng</a></button>
+                <button><a href="../../modules/checkout/viewOrder.php">Thanh toán ngay</a></button>
                 <a href=""></a>
             </div>
         </div>

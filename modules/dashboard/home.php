@@ -178,12 +178,6 @@ $con->close();
             <?php endforeach; ?>
         </div>
     </div>
-
-    <div class="w-100 text-center mt-3">
-        <a href="#" class="see-more">
-            <button class="btn"><i class="fa-solid fa-angles-right"></i> Xem thêm</button>
-        </a>
-    </div>
 </div>
 
 <div class="tabs">

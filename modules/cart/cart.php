@@ -78,7 +78,7 @@ if ($user_id) {
                     <li class="text-secondary" style="font-size: 12px;">Phí vận chuyển sẽ được tính ở trang thanh toán.</li>
                     <li class="text-secondary" style="font-size: 12px;">Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</li>
                 </ul>
-                <a href="../../modules/checkout/viewCheckout.php" class="btn w-100 text-white rounded-0" style="box-shadow:none; background-color: red; font-size: 14px; cursor: pointer;">Thanh toán</a>
+                <a href="../../modules/checkout/viewOrder.php" class="btn w-100 text-white rounded-0" style="box-shadow:none; background-color: red; font-size: 14px; cursor: pointer;">Thanh toán</a>
             </div>
         </div>
     <?php else: ?>

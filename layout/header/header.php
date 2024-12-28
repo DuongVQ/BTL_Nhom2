@@ -66,6 +66,7 @@ if ($user_id) {
     <link rel="stylesheet" href="../../templates/css/orderDetails.css">
     <link rel="stylesheet" href="../../templates/css/inforUser.css">
     <link rel="stylesheet" href="../../templates/css/listOrdered.css">
+
 </head>
 
 <body>
@@ -130,53 +131,6 @@ if ($user_id) {
                         <box-icon name='search'></box-icon>
                     </button>
                 </div>
-                <div class="header-user">
-                    <?php
-                    if (!isset($_SESSION['login'])) {
-                    ?>
-                        <a href="../../modules/dashboard/login.php">
-                            <div class="item-header-user-secondary">
-                                <box-icon name='log-in'></box-icon>
-                                Đăng nhập
-                            </div>
-                        </a>
-                    <?php
-                    } else {
-                    ?>
-                        <button class="header-action-btn header-user-parent">
-                            <box-icon name='user'></box-icon>
-                            <div class="header-user-secondary">
-                                <a href="../../modules/user/info.php">
-                                    <div class="item-header-user-secondary">
-                                        <box-icon type='solid' name='user'></box-icon>
-                                        Thông tin cá nhân
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="item-header-user-secondary">
-                                        <box-icon type='solid' name='box'></box-icon>
-                                        Đơn hàng của tôi
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="item-header-user-secondary">
-                                        <box-icon name='history'></box-icon>
-                                        Lịch sử đặt hàng
-                                    </div>
-                                </a>
-                                <a href="../../modules/user/logout.php">
-                                    <div class="item-header-user-secondary" style="border-top: 1px solid #ccc;">
-                                        <box-icon name='log-out'></box-icon>
-                                        Đăng xuất
-                                    </div>
-                                </a>
-                            <?php
-                        }
-                            ?>
-
-                            </div>
-                        </button>
-                </div>
                 <div class="header-cart">
                     <button class="header-action-btn" data-bs-toggle="offcanvas" data-bs-target="#demo" style="position: relative;">
                         <box-icon name='shopping-bag'></box-icon>
@@ -214,12 +168,11 @@ if ($user_id) {
                                     <?php endforeach; ?>
                                 </ul>
                                 <div class="mt-3 position-absolute bottom-0 start-0 w-100 p-2 border-top">
-
                                     <div class="d-flex justify-content-between w-100">
                                         <p>Thành tiền:</p>
                                         <p><?= number_format($totalPrice, 0, ',', '.') . 'đ' ?></p>
                                     </div>
-                                    <a href="../../modules/checkout/viewCheckout.php" class="btn w-100 text-white" style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
+                                    <a href="../../modules/checkout/viewOrder.php" class="btn w-100 text-white" style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
                                     <a href="../../modules/cart/cart.php" style="font-size: 12px; text-decoration:underline;">Xem giỏ hàng</a>
 
                                 </div>
@@ -229,6 +182,53 @@ if ($user_id) {
                         </div>
                     </div>
                 </div>
+                <div class="header-user">
+                    <?php
+                    if (!isset($_SESSION['login'])) {
+                    ?>
+                        <a href="../../modules/dashboard/login.php">
+                            <div class="header-action-btn" style="cursor: pointer;">
+                                <box-icon name='log-in'></box-icon>
+                            </div>
+                        </a>
+                    <?php
+                    } else {
+                    ?>
+                        <button class="header-action-btn header-user-parent">
+                            <box-icon name='user'></box-icon>
+                            <div class="header-user-secondary">
+                                <a href="../../modules/dashboard/inforUser.php">
+                                    <div class="item-header-user-secondary">
+                                        <box-icon type='solid' name='user'></box-icon>
+                                        Thông tin cá nhân
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="item-header-user-secondary">
+                                        <box-icon type='solid' name='box'></box-icon>
+                                        Đơn hàng của tôi
+                                    </div>
+                                </a>
+                                <a href="../../modules/dashboard/history-order.php">
+                                    <div class="item-header-user-secondary">
+                                        <box-icon name='history'></box-icon>
+                                        Lịch sử đặt hàng
+                                    </div>
+                                </a>
+                                <a href="../../modules/user/logout.php">
+                                    <div class="item-header-user-secondary" style="border-top: 1px solid #ccc;">
+                                        <box-icon name='log-out'></box-icon>
+                                        Đăng xuất
+                                    </div>
+                                </a>
+                            <?php
+                        }
+                            ?>
+
+                            </div>
+                        </button>
+                </div>
+                
             </div>
         </div>
     </div>

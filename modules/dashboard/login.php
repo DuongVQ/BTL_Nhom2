@@ -53,15 +53,15 @@
 
 <body>
   <form action="PhanQuyen.php" method="post">
-    <h3 class="text-center mb-4">Đăng nhập</h3>
+    <h3 class="text-center mb-4 fw-bold">Đăng nhập</h3>
     <!-- Email input -->
     <div data-mdb-input-init class="form-outline mb-4">
-      <input type="email" id="form2Example1" class="form-control" name="email" placeholder="Nhập địa chỉ email" />
+      <input type="email" id="form2Example1" class="form-control border-0 border-bottom bg-transparent" name="email" placeholder="Nhập địa chỉ email" />
     </div>
 
     <!-- Password input -->
     <div data-mdb-input-init class="form-outline mb-4">
-      <input type="password" id="form2Example2" class="form-control" name="password" placeholder="Nhập mật khẩu" />
+      <input type="password" id="form2Example2" class="form-control border-0 border-bottom bg-transparent" name="password" placeholder="Nhập mật khẩu" />
     </div>
     <?php
     session_start();
@@ -70,12 +70,16 @@
       unset($_SESSION['error']); // Xóa thông báo lỗi sau khi hiển thị
     }
     ?>
+
+    <!-- Submit button -->
+    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block mb-4 w-100">Đăng nhập</button>
+
     <!-- 2 column grid layout for inline styling -->
     <div class="row mb-4">
       <div class="col d-flex justify-content-center">
         <!-- Checkbox -->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+          <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked/>
           <label class="form-check-label" for="form2Example31"> Remember me </label>
         </div>
       </div>
@@ -87,13 +91,10 @@
     </div>
 
     <div class="col">
-      <!-- Submit button -->
-      <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4 w-100">Đăng nhập</button>
 
       <!-- Register buttons -->
       <div class="text-center">
-        <p>Not a member? <a href="/BTL_Nhom2/modules/user/register.php">Register</a></p>
-        <p>or sign up with:</p>
+        <p style="font-size: 14px;">Not a member? <a href="/BTL_Nhom2/modules/user/register.php">Register</a></p>
         <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
           <i class="fab fa-facebook-f"></i>
         </button>

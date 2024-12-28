@@ -196,8 +196,19 @@ $user_id = $_SESSION['login'] ?? null;
                 document.getElementById("productModalTitle").textContent = productName;
                 document.getElementById("productModalCode").textContent = productCode;
                 document.getElementById("productModalPrice").textContent = productPrice;
-                document.getElementById("productModalOldPrice").textContent = productOldPrice;
-                document.getElementById("productModalDiscount").textContent = productDiscount;
+                if (productOldPrice !== "N/A") {
+                    document.getElementById("productModalOldPrice").textContent = productOldPrice;
+                    document.getElementById("productModalOldPrice").style.display = "block";
+                } else {
+                    document.getElementById("productModalOldPrice").style.display = "none";
+                }
+
+                if (productDiscount !== "0") {
+                    document.getElementById("productModalDiscount").textContent = productDiscount;
+                    document.getElementById("productModalDiscount").style.display = "block";
+                } else {
+                    document.getElementById("productModalDiscount").style.display = "none";
+                }
                 document.getElementById("productModalImage").src = productImage;
 
                 document.getElementById("productModalCodeInput").value = productCode;
@@ -210,13 +221,13 @@ $user_id = $_SESSION['login'] ?? null;
                 const colorButtons = document.getElementById("productModalColorButtons");
                 colorButtons.innerHTML = productColors.split(',').map(color => `
                 <input type="radio" class="btn-check" name="color" id="color-${color.trim()}" value="${color.trim()}" autocomplete="off">
-                <label class="btn btn-outline-primary" for="color-${color.trim()}">${color.trim()}</label>
+                <label class="btn btn-outline-dark" for="color-${color.trim()}">${color.trim()}</label>
             `).join('');
 
                 const sizeButtons = document.getElementById("productModalSizeButtons");
                 sizeButtons.innerHTML = productSizes.split(',').map(size => `
                 <input type="radio" class="btn-check" name="size_product" id="size-${size.trim()}" value="${size.trim()}" autocomplete="off">
-                <label class="btn btn-outline-primary" for="size-${size.trim()}">${size.trim()}</label>
+                <label class="btn btn-outline-dark" for="size-${size.trim()}">${size.trim()}</label>
             `).join('');
 
                 new bootstrap.Modal(document.getElementById("productModal")).show();
