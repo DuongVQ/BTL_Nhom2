@@ -1,0 +1,18 @@
+.wrapper_list_ordered {
+    margin-top: 90px;
+}
+/* table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table,
+td,
+th {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid black;
+} */
+
+.container .no_ordered {
+    font-weight: 650;
+}

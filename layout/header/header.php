@@ -49,6 +49,9 @@ if ($cartItemsResult) {
     <link rel="stylesheet" href="../../templates/css/home.css">
     <link rel="stylesheet" href="../../templates/css/cart.css">
     <link rel="stylesheet" href="../../templates/css/footer.css">
+    <link rel="stylesheet" href="../../templates/css/orderDetails.css">
+    <link rel="stylesheet" href="../../templates/css/inforUser.css">
+    <link rel="stylesheet" href="../../templates/css/listOrdered.css">
 </head>
 
 <body>
@@ -117,7 +120,7 @@ if ($cartItemsResult) {
                     <button class="header-action-btn header-user-parent">
                         <box-icon name='user'></box-icon>
                         <div class="header-user-secondary">
-                            <a href="#">
+                            <a href="../../modules/inforUser/inforUser.php">
                                 <div class="item-header-user-secondary">
                                     <box-icon type='solid' name='user'></box-icon>
                                     Thông tin cá nhân
@@ -129,7 +132,7 @@ if ($cartItemsResult) {
                                     Đơn hàng của tôi
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="../../modules/listOrdered/listOrdered.php">
                                 <div class="item-header-user-secondary">
                                     <box-icon name='history'></box-icon>
                                     Lịch sử đặt hàng

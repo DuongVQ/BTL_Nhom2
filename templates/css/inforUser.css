@@ -1,0 +1,14 @@
+.wrapper_infor_user {
+    margin-top: 100px;
+}
+.container .title_notf {
+    text-align: center;
+}
+.container .more_infor {
+    color: green;
+}
+.container .submit_infor_user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
