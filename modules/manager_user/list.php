@@ -17,6 +17,7 @@ $result = $con->query("SELECT * FROM user");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
+
 <body>
     <table class='table'>
         <tr>
