@@ -1,9 +1,6 @@
 <?php
-if (!isset($_SESSION['role'])) {
-    header("Location:../../modules/dashboard/home.php");
-    exit;
-}
 include_once "../../config.php";
+include_once "../../layout/slidebar/slidebar.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
