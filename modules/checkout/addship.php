@@ -57,7 +57,7 @@
             unset($_SESSION['cart']);
         }
         if($con->query($sql) === true){
-            header("location: ./ordersuss.php");
+            header("location: ../../modules/dashboard/home.php");
         }
         $duc_order->close();
     }
