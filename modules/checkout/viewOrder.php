@@ -26,24 +26,56 @@ $user_id = $_SESSION['login'] ?? null;
                 <div class="logo">
 
                 </div>
+                <?php
+                    include_once "../../config.php";
 
+                    // Lấy thông tin shipment tu user_id
+                    $shipment_info = null;
+                    if ($user_id) {
+                        // lay don hang moi nhat tu user id
+                        $sql_order = "SELECT id FROM orders WHERE user_id = ? ORDER BY created_at DESC LIMIT 1";
+                        $stmt_order = $con->prepare($sql_order);
+                        $stmt_order->bind_param("i", $user_id);
+                        $stmt_order->execute();
+                        $result_order = $stmt_order->get_result();
+
+                        if ($result_order->num_rows > 0) {
+                            $order = $result_order->fetch_assoc();
+                            $order_id = $order['id'];
+
+                            // Lay thong tin shipment tư id cua order
+                            $sql_shipment = "SELECT * FROM shipment WHERE order_id = ?";
+                            $stmt_shipment = $con->prepare($sql_shipment);
+                            $stmt_shipment->bind_param("i", $order_id);
+                            $stmt_shipment->execute();
+                            $result_shipment = $stmt_shipment->get_result();
+
+                            if ($result_shipment->num_rows > 0) {
+                                $shipment_info = $result_shipment->fetch_assoc();
+                            }
+                        }
+                        $sql_email = "SELECT email FROM user WHERE id = '$user_id'";
+                        $rse = mysqli_query($con, $sql_email);
+                        if($row = mysqli_fetch_assoc($rse)){
+                            $mail = $row['email'];
+                        }
+                    }
+                ?>
                 <div>
                     <p>Thông tin giao hàng</p>
                 </div>
 
                 <div class="infor-order">
-                    <input type="text" placeholder="Họ và tên" name="name">
+                    <input type="text" placeholder="Họ và tên" name="name" value="<?php echo $shipment_info['fullname'] ?? ''; ?>">
                     <div class="">
-                        <input type="email" placeholder="Email" name="email">
-                        <input type="text" placeholder="Số điện thoại" name="sdt">
+                        <input type="email" placeholder="Email" name="email" value="<?php echo $mail ?? ''; ?>">
+                        <input type="text" placeholder="Số điện thoại" name="sdt" value="<?php echo $shipment_info['phone'] ?? ''; ?>">
                     </div>
-                    <input type="text" placeholder="Địa chỉ" name="diachi">
+                    <input type="text" placeholder="Địa chỉ" name="diachi" value="<?php echo $shipment_info['address'] ?? ''; ?>">
                     <div>
-                        <input type="text" placeholder="Tỉnh" name="tinh">
-                        <input type="text" placeholder="Quận/Huyện" name="huyen">
-                        <input type="text" placeholder="Phường/Xã" name="xa">
+                        <input type="text" placeholder="Tỉnh" name="tinh" value="<?php echo $shipment_info['city'] ?? ''; ?>">
+                        <input type="text" placeholder="Quận/Huyện" name="huyen" value="<?php echo $shipment_info['district'] ?? ''; ?>">
                     </div>
-
                 </div>
 
                 <div>
