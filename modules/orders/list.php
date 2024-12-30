@@ -13,10 +13,10 @@ include_once "../../config.php";
 
 <body>
     <div class="container mt-4">
-        <h1>Danh sách hóa đơn</h1>
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
+                    <h1>Danh sách hóa đơn</h1>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -24,20 +24,11 @@ include_once "../../config.php";
                                 <th>Mã đơn hàng</th>
                                 <th>Tên khách hàng</th>
                                 <th>Ngày đặt</th>
+                                <th>Ngày update</th>
                                 <th>Trạng thái</th>
                                 <th>Quản lý</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã đơn hàng</th>
-                                <th>Tên khách hàng</th>
-                                <th>Ngày đặt</th>
-                                <th>Trạng thái</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                             <?php
                             // Truy vấn cơ sở dữ liệu để lấy danh sách đơn hàng
@@ -56,9 +47,10 @@ include_once "../../config.php";
                                     <td><?=$row['id']?></td>
                                     <td><?=$row['fullname']?></td>
                                     <td><?=$row['created_at']?></td>
+                                    <td><?=$row['update_at']?></td>
                                     <td><span class='<?=$row['status']?>'><?=$row['status']?></span></td>
                                     <td>
-                                        <a class="btn btn-warning" href="../../modules/orders/view.php?id=<?=$row['id']?>">Xem</a>
+                                        <a class="btn btn-warning" href="../../layout/slidebar/slidebar.php?page_layout=vieworders&id=<?=$row['id']?>">Xem</a>
                                         <a class="btn btn-warning" href="../../modules/orders/indon.php?id=<?=$row['id']?>">In đơn hàng</a>
                                     </td>
                                 </tr>
