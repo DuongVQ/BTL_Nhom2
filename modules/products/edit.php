@@ -89,79 +89,87 @@ $con->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
 </head>
+
 <body>
-    <div class="container">
-        <h2>Edit Product</h2>
-        <form action="" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($product['name']) ?>" required>
+    <div class="container mt-4">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Edit Product</h2>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($product['name']) ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="code" class="form-label">Product Code</label>
+                        <input type="text" class="form-control" id="code" name="code" value="<?= htmlspecialchars($product['code']) ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" required><?= htmlspecialchars($product['description']) ?></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="price" name="price" value="<?= htmlspecialchars($product['price']) ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="old_price" class="form-label">Old Price</label>
+                        <input type="number" class="form-control" id="old_price" name="old_price" value="<?= htmlspecialchars($product['old_price']) ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="discount" class="form-label">Discount (%)</label>
+                        <input type="number" class="form-control" id="discount" name="discount" value="<?= htmlspecialchars($product['discount']) ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Category</label>
+                        <select class="form-control" id="category_id" name="category_id" required>
+                            <?php
+                            // Fetch categories from the database
+                            $con = new mysqli($url, $uname, $upass, $dbname);
+                            $result = $con->query("SELECT * FROM categories");
+                            while ($row = $result->fetch_assoc()) {
+                                $selected = $row['id'] == $product['category'] ? 'selected' : '';
+                                echo "<option value='" . $row['id'] . "' $selected>" . $row['name'] . "</option>";
+                            }
+                            $con->close();
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="Còn hàng" <?= $product['status'] == 'Còn hàng' ? 'selected' : '' ?>>In Stock</option>
+                            <option value="Hết hàng" <?= $product['status'] == 'Hết hàng' ? 'selected' : '' ?>>Out of Stock</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="images" class="form-label">Product Image</label>
+                        <input type="file" class="form-control" id="images" name="images[]" multiple>
+                        <img src="<?= htmlspecialchars($image) ?>" width="100" alt="Current Image">
+                    </div>
+                    <div class="mb-3">
+                        <label for="colors" class="form-label">Colors</label>
+                        <input type="text" class="form-control" id="colors" name="colors" value="<?= implode(', ', $colors) ?>" placeholder="Enter colors separated by commas">
+                    </div>
+                    <div class="mb-3">
+                        <label for="sizes" class="form-label">Sizes</label>
+                        <input type="text" class="form-control" id="sizes" name="sizes" value="<?= implode(', ', $sizes) ?>" placeholder="Enter sizes separated by commas">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Product</button>
+                    <a href="../../layout/slidebar/slidebar.php?page_layout=products" class="btn btn-secondary">Back</a>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="code" class="form-label">Code</label>
-                <input type="text" class="form-control" id="code" name="code" value="<?= htmlspecialchars($product['code']) ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" required><?= htmlspecialchars($product['description']) ?></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="number" class="form-control" id="price" name="price" value="<?= htmlspecialchars($product['price']) ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="old_price" class="form-label">Old Price</label>
-                <input type="number" class="form-control" id="old_price" name="old_price" value="<?= htmlspecialchars($product['old_price']) ?>">
-            </div>
-            <div class="mb-3">
-                <label for="discount" class="form-label">Discount (%)</label>
-                <input type="number" class="form-control" id="discount" name="discount" value="<?= htmlspecialchars($product['discount']) ?>">
-            </div>
-            <div class="mb-3">
-                <label for="category_id" class="form-label">Category</label>
-                <select class="form-control" id="category_id" name="category_id" required>
-                    <?php
-                    // Fetch categories from the database
-                    $con = new mysqli($url, $uname, $upass, $dbname);
-                    $result = $con->query("SELECT * FROM categories");
-                    while ($row = $result->fetch_assoc()) {
-                        $selected = $row['id'] == $product['category'] ? 'selected' : '';
-                        echo "<option value='" . $row['id'] . "' $selected>" . $row['name'] . "</option>";
-                    }
-                    $con->close();
-                    ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-control" id="status" name="status" required>
-                    <option value="Còn hàng" <?= $product['status'] == 'Còn hàng' ? 'selected' : '' ?>>Còn hàng</option>
-                    <option value="Hết hàng" <?= $product['status'] == 'Hết hàng' ? 'selected' : '' ?>>Hết hàng</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="images" class="form-label">Images</label>
-                <input type="file" class="form-control" id="images" name="images[]" multiple>
-                <img src="<?= htmlspecialchars($image) ?>" width="100" alt="Current Image">
-            </div>
-            <div class="mb-3">
-                <label for="colors" class="form-label">Colors</label>
-                <input type="text" class="form-control" id="colors" name="colors" value="<?= implode(', ', $colors) ?>" placeholder="Enter colors separated by commas">
-            </div>
-            <div class="mb-3">
-                <label for="sizes" class="form-label">Sizes</label>
-                <input type="text" class="form-control" id="sizes" name="sizes" value="<?= implode(', ', $sizes) ?>" placeholder="Enter sizes separated by commas">
-            </div>
-            <button type="submit" class="btn btn-primary">Update Product</button>
-            <a href="../../layout/slidebar/slidebar.php?page_layout=products" class="btn btn-secondary">Back</a>
-        </form>
+        </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </body>
+
 </html>

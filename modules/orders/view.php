@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $con->query("UPDATE orders SET status='$status' WHERE id='$id'");
     $_SESSION['message'] = "Order status updated successfully!";
-    header("Location: list.php");
+    header("Location:../../layout/slidebar/slidebar.php?page_layout=orders");
     exit();
 }
 
@@ -39,16 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <div class="container">
-        <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card o-hidden border-0 shadow-lg">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h1 text-gray-900 mb-4">Xem và cập nhật trạng thái đơn hàng</h1>
+                            <div class="text-center mb-4">
+                                <h1 class="h1 text-gray-900">Xem và cập nhật trạng thái đơn hàng</h1>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mx-auto">
                                 <div class="card shadow mb-4">
                                     <div class="card-body">
                                         <div class="text-center mb-4">
@@ -92,67 +92,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <button class="btn btn-primary" name="btnUpdate">Update</button>
-                                                <a href="list.php" class="btn btn-secondary">Back</a>
+                                                <a href="../../layout/slidebar/slidebar.php?page_layout=orders" class="btn btn-secondary">Back</a>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
 
-
-                            <div class="table-responsive">
-                                <div class="text-center">
-                                    <h1 class="h3 text-gray-900 mb-4">Chi tiết đơn hàng</h1>
+                            <div class="card shadow mb-4 mt-5">
+                                <div class="card-body">
+                                    <div class="text-center mb-4">
+                                        <h1 class="h3 text-gray-900">Chi tiết đơn hàng</h1>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>Sản phẩm</th>
+                                                    <th>Giá</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Tiền</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                    $sql = "SELECT *, products.name AS pname, order_details.price_product AS oprice 
+                                                    FROM products, order_details 
+                                                    where products.id=order_details.product_id and order_id=$id";
+                                                    
+                                                    $res = mysqli_query($con, $sql);
+                                                    $stt = 0;
+                                                    $tongtien = 0;
+                                                    while ($row = mysqli_fetch_assoc($res)) {
+                                                    $tongtien += $row['quantity'] * $row['oprice'];
+                                                ?>
+                                                    <tr>
+                                                        <td><?= ++$stt ?></td>
+                                                        <td><?= $row['pname'] ?></td>
+                                                        <td><?= number_format($row['oprice'], 0, '', '.') . " VNĐ" ?></td>
+                                                        <td><?= $row['quantity'] ?></td>
+                                                        <td><?= number_format($row['total'], 0, '', '.') . " VNĐ" ?></td>
+                                                    </tr>
+                                                    <?php
+                                            }
+                                            ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <td colspan="4" class="text-right"><strong>Tổng tiền:</strong></td>
+                                                <td><strong><?= number_format($tongtien, 0, '', '.') . " VNĐ" ?></strong></td>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>STT</th>
-                                            <th>Sản phẩm</th>
-                                            <th>Giá</th>
-                                            <th>Số lượng</th>
-                                            <th>Tiền</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                            $sql = "SELECT *, products.name AS pname, order_details.price_product AS oprice 
-                                            FROM products, order_details 
-                                            where products.id=order_details.product_id and order_id=$id";
-                                            
-                                            $res = mysqli_query($con, $sql);
-                                            $stt = 0;
-                                            $tongtien = 0;
-                                            while ($row = mysqli_fetch_assoc($res)) {
-                                            $tongtien += $row['quantity'] * $row['oprice'];
-                                        ?>
-                                            <tr>
-                                                <td>
-                                                    <?= ++$stt ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row['pname'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= number_format($row['oprice'], 0, '', '.') . " VNĐ" ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row['quantity'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= number_format($row['total'], 0, '', '.') . " VNĐ" ?>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                    }
-                                    ?>
-                                    </tbody>
-                                    <tfoot>
-                                        <td colspan="4" class="text-right"><strong>Tổng tiền:</strong></td>
-                                        <td><strong><?= number_format($tongtien, 0, '', '.') . " VNĐ" ?></strong></td>
-                                    </tfoot>
-                                </table>
                             </div>
+
                         </div>
                     </div>
                 </div>

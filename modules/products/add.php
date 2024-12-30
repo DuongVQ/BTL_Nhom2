@@ -70,72 +70,98 @@ $con->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Add Product</h2>
-        <form action="" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+    <div class="container mt-4">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h1 class="card-title">Thêm Sản Phẩm</h1>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Tên Sản Phẩm</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="code" class="form-label">Mã Sản Phẩm</label>
+                        <input type="text" name="code" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Mô Tả</label>
+                        <textarea name="description" class="form-control" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Giá</label>
+                        <input type="number" name="price" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="old_price" class="form-label">Giá Cũ</label>
+                        <input type="number" name="old_price" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="discount" class="form-label">Giảm Giá (%)</label>
+                        <input type="number" name="discount" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Danh Mục</label>
+                        <select name="category_id" class="form-control" required>
+                            <?php
+                            // Fetch categories from the database
+                            $con = new mysqli($url, $uname, $upass, $dbname);
+                            $result = $con->query("SELECT * FROM categories");
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                            }
+                            $con->close();
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Trạng Thái</label>
+                        <select name="status" class="form-control" required>
+                            <option value="Còn hàng">Còn hàng</option>
+                            <option value="Hết hàng">Hết hàng</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="images" class="form-label">Hình Ảnh</label>
+                        <input type="file" name="images[]" class="form-control" multiple>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="colors" class="form-label">Màu Sắc</label>
+                        <input type="text" name="colors" class="form-control" placeholder="Nhập màu sắc cách nhau bằng dấu phẩy">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sizes" class="form-label">Kích Thước</label>
+                        <input type="text" name="sizes" class="form-control" placeholder="Nhập kích thước cách nhau bằng dấu phẩy">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <a href="../../layout/slidebar/slidebar.php?page_layout=products" class="btn btn-secondary">Quay lại</a>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="code" class="form-label">Code</label>
-                <input type="text" class="form-control" id="code" name="code" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="number" class="form-control" id="price" name="price" required>
-            </div>
-            <div class="mb-3">
-                <label for="old_price" class="form-label">Old Price</label>
-                <input type="number" class="form-control" id="old_price" name="old_price">
-            </div>
-            <div class="mb-3">
-                <label for="discount" class="form-label">Discount (%)</label>
-                <input type="number" class="form-control" id="discount" name="discount">
-            </div>
-            <div class="mb-3">
-                <label for="category_id" class="form-label">Category</label>
-                <select class="form-control" id="category_id" name="category_id" required>
-                    <?php
-                    // Fetch categories from the database
-                    $con = new mysqli($url, $uname, $upass, $dbname);
-                    $result = $con->query("SELECT * FROM categories");
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
-                    }
-                    $con->close();
-                    ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-control" id="status" name="status" required>
-                    <option value="Còn hàng">Còn hàng</option>
-                    <option value="Hết hàng">Hết hàng</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="images" class="form-label">Images</label>
-                <input type="file" class="form-control" id="images" name="images[]" multiple>
-            </div>
-            <div class="mb-3">
-                <label for="colors" class="form-label">Colors</label>
-                <input type="text" class="form-control" id="colors" name="colors" placeholder="Enter colors separated by commas">
-            </div>
-            <div class="mb-3">
-                <label for="sizes" class="form-label">Sizes</label>
-                <input type="text" class="form-control" id="sizes" name="sizes" placeholder="Enter sizes separated by commas">
-            </div>
-            <button type="submit" class="btn btn-primary">Add Product</button>
-            <a href="../../layout/slidebar/slidebar.php?page_layout=products" class="btn btn-secondary">Quay lại</a>
-        </form>
+        </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo "toastr.success('" . $_SESSION['message'] . "');";
+            unset($_SESSION['message']);
+        }
+        ?>
+    </script>
 </body>
 </html>
