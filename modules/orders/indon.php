@@ -31,14 +31,24 @@ $fill = false;
 $i = 0;
 while ($row = mysqli_fetch_array($result)) {
     $i++;
-    $pdf->Cell($width_cell[0], 10, $i, 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[1], 10, $row['id'], 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[2], 10, $row['pname'], 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[4], 10, number_format($row['oprice']), 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[3], 10, $row['quantity'], 1, 0, 'C', $fill);
-    $pdf->Cell($width_cell[5], 10, number_format($row['quantity'] * $row['oprice']), 1, 1, 'C', $fill);
-    $fill = !$fill;
 
+    // Tính chiều cao cần thiết dựa trên nội dung dài nhất
+    $pnameHeight = $pdf->GetStringWidth($row['pname']) / $width_cell[2];
+    $rowHeight = ceil($pnameHeight) * 10; 
+    
+    $pdf->Cell($width_cell[0], $rowHeight, $i, 1, 0, 'C', $fill);
+    $pdf->Cell($width_cell[1], $rowHeight, $row['id'], 1, 0, 'C', $fill);
+
+    $x = $pdf->GetX(); 
+    $y = $pdf->GetY(); 
+    $pdf->MultiCell($width_cell[2], 10, $row['pname'], 1, 'C', $fill);
+    $pdf->SetXY($x + $width_cell[2], $y); 
+  
+    $pdf->Cell($width_cell[4], $rowHeight, number_format($row['oprice']), 1, 0, 'C', $fill);
+    $pdf->Cell($width_cell[3], $rowHeight, $row['quantity'], 1, 0, 'C', $fill);
+    $pdf->Cell($width_cell[5], $rowHeight, number_format($row['quantity'] * $row['oprice']), 1, 1, 'C', $fill);
+
+    $fill = !$fill;
 }
 $pdf->Write(10, 'Cảm ơn bạn đã đặt hàng tại website của chúng tôi.');
 $pdf->Ln(10);

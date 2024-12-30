@@ -3,9 +3,10 @@ session_start();
 include_once "../../config.php";
 
 $id = $_GET['id'];
-$result = $con->query("SELECT orders.*, user.fullname, user.phone, user.email 
-                                FROM orders JOIN user 
-                                ON orders.user_id = user.id 
+$result = $con->query("SELECT orders.*, shipment.*, user.email 
+                                FROM orders 
+                                JOIN user ON orders.user_id = user.id 
+                                JOIN shipment ON orders.id = shipment.order_id 
                                 WHERE orders.id='$id'");
 
 if ($result->num_rows > 0) {
@@ -72,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-3"><strong>Địa chỉ:</strong></div>
-                                                <div class="col-md-9"><?= $row['email'] ?></div>
+                                                <div class="col-md-9"><?= $row['address'] . ', ' . $row['district']. ', ' . $row['city']?></div>
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-3"><strong>Trạng thái đơn hàng:</strong></div>
