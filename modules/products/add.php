@@ -1,7 +1,9 @@
 <?php
 include_once "../../config.php";
 
+// Kiểm tra quyền
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Lấy dữ liệu từ form
     $name = $_POST['name'];
     $code = $_POST['code'];
     $description = $_POST['description'];
@@ -17,34 +19,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Xử lý tải lên hình ảnh
     foreach ($_FILES['images']['name'] as $key => $image_name) {
+        // Nếu có hình ảnh được chọn
         if (!empty($image_name)) {
             $folder = "../../image/";
             $filename = basename($image_name);
             $path = $folder . $filename;
 
+            // Kiểm tra xem thư mục chứa hình ảnh đã tồn tại chưa, nếu chưa thì tạo mới
             if (!file_exists($folder)) {
                 mkdir($folder, 0777, true);
             }
 
+            // Di chuyển hình ảnh vào thư mục
             if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $path)) {
                 $con->query("INSERT INTO product_images (product_id, image_url) VALUES ('$product_id', '$path')");
             }
         }
     }
 
-    // Xử lý màu sắc (dữ liệu là chuỗi)
+    // Xử lý màu sắc (vì dữ liệu được đưa vào đang ở dạng chuỗi)
     $colors = explode(',', $_POST['colors']); // Tách các màu bằng dấu phẩy
     foreach ($colors as $color) {
-        $color = trim($color); // Loại bỏ khoảng trắng thừa
+        $color = trim($color); 
         if (!empty($color)) {
             $con->query("INSERT INTO product_colors (product_id, color_name) VALUES ('$product_id', '$color')");
         }
     }
 
-    // Xử lý kích thước (dữ liệu là chuỗi)
+    // Xử lý kích thước (vì dữ liệu được đưa vào đang ở dạng chuỗi)
     $sizes = explode(',', $_POST['sizes']); // Tách các kích thước bằng dấu phẩy
     foreach ($sizes as $size) {
-        $size = trim($size); // Loại bỏ khoảng trắng thừa
+        $size = trim($size); 
         if (!empty($size)) {
             $con->query("INSERT INTO product_sizes (product_id, size_name) VALUES ('$product_id', '$size')");
         }

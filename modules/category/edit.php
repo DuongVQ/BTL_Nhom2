@@ -3,8 +3,11 @@ session_start();
 include_once "../../config.php";
 
 $id = $_GET['id'];
+
+// Lấy thông tin category từ id
 $result = $con->query("SELECT * FROM categories WHERE id='$id'");
 
+// Kiểm tra xem category có tồn tại không
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
 } else {
@@ -31,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
+    // Update category
     $con->query("UPDATE categories SET name='$name', image='$image', description='$description' WHERE id='$id'");
     $_SESSION['message'] = "Category updated successfully!";
     header("Location:../../layout/slidebar/slidebar.php?page_layout=category");

@@ -177,11 +177,14 @@ $user_id = $_SESSION['login'] ?? null;
 
     // Modal
     document.addEventListener("DOMContentLoaded", () => {
+        // Lấy user id từ PHP
         const userId = <?= json_encode($user_id) ?>;
-        console.log(userId);
-        
+
+        // Thêm sự kiện click cho nút xem chi tiết và thêm vào giỏ hàng
         document.querySelectorAll(".addCart, .quick-view").forEach((button) => {
             button.addEventListener("click", (event) => {
+
+                // Lấy thông tin sản phẩm từ phần tử cha chứa nút
                 const productElement = event.target.closest(".item-product");
 
                 const productName = productElement.querySelector(".name-product").textContent;
@@ -193,6 +196,7 @@ $user_id = $_SESSION['login'] ?? null;
                 const productSizes = productElement.dataset.sizes || "Không có";
                 const productImage = productElement.querySelector(".img-product img").src;
 
+                // Hiển thị thông tin sản phẩm trong modal
                 document.getElementById("productModalTitle").textContent = productName;
                 document.getElementById("productModalCode").textContent = productCode;
                 document.getElementById("productModalPrice").textContent = productPrice;
@@ -211,6 +215,7 @@ $user_id = $_SESSION['login'] ?? null;
                 }
                 document.getElementById("productModalImage").src = productImage;
 
+                // Đặt giá trị mặc định cho input số lượng
                 document.getElementById("productModalCodeInput").value = productCode;
                 document.getElementById("productModalNameInput").value = productName;
                 document.getElementById("productModalImageInput").value = productImage;
@@ -218,22 +223,26 @@ $user_id = $_SESSION['login'] ?? null;
                 document.getElementById("productModalOldPriceInput").value = productOldPrice;
                 document.getElementById("productModalUserIdInput").value = userId;
                 
+                // Hiển thị các màu sắc của sản phẩm
                 const colorButtons = document.getElementById("productModalColorButtons");
                 colorButtons.innerHTML = productColors.split(',').map(color => `
                 <input type="radio" class="btn-check" name="color" id="color-${color.trim()}" value="${color.trim()}" autocomplete="off">
                 <label class="btn btn-outline-dark" for="color-${color.trim()}">${color.trim()}</label>
             `).join('');
 
+                // Hiển thị các size của sản phẩm
                 const sizeButtons = document.getElementById("productModalSizeButtons");
                 sizeButtons.innerHTML = productSizes.split(',').map(size => `
                 <input type="radio" class="btn-check" name="size_product" id="size-${size.trim()}" value="${size.trim()}" autocomplete="off">
                 <label class="btn btn-outline-dark" for="size-${size.trim()}">${size.trim()}</label>
             `).join('');
 
+                // Hiển thị modal
                 new bootstrap.Modal(document.getElementById("productModal")).show();
             });
         });
 
+        // Thêm sự kiện click cho nút thêm vào giỏ hàng: tăng giảm số lượng
         const quantityInput = document.getElementById("productModalQuantity");
         document.getElementById("quantityIncrease").addEventListener("click", () => {
             quantityInput.value = parseInt(quantityInput.value) + 1;

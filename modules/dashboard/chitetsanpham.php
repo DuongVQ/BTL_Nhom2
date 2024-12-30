@@ -1,11 +1,13 @@
 <?php
 session_start();
-include_once "../../config.php"; 
-include_once "../../layout/header/header.php";
+$user_id = $_SESSION['login'] ?? null;
+include_once '../../config.php';
+include_once '../../layout/header/header.php';
+
 $product_id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($product_id) {
-    // truy van bang produc và product image
+    // Truy vấn sản phẩm và hình ảnh sản phẩm
     $sql = "SELECT p.*, pi.image_url FROM products p 
             LEFT JOIN product_images pi ON p.id = pi.product_id 
             WHERE p.id = ?";
@@ -14,11 +16,10 @@ if ($product_id) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    
     if ($result->num_rows > 0) {
         $product = $result->fetch_assoc();
 
-        //truy van mau sac san pham
+        // Truy vấn màu sắc sản phẩm
         $colorResult = $con->query("SELECT color_name FROM product_colors WHERE product_id = " . $product['id']);
         $colors = [];
         if ($colorResult->num_rows > 0) {
@@ -27,7 +28,7 @@ if ($product_id) {
             }
         }
 
-        //truy van size
+        // Truy vấn kích thước sản phẩm
         $sizeResult = $con->query("SELECT size_name FROM product_sizes WHERE product_id = " . $product['id']);
         $sizes = [];
         if ($sizeResult->num_rows > 0) {
@@ -35,9 +36,6 @@ if ($product_id) {
                 $sizes[] = $sizeRow['size_name'];
             }
         }
-
-     
-        $stmt->close();
     } else {
         echo "Sản phẩm không tồn tại.";
         exit;
@@ -50,182 +48,112 @@ if ($product_id) {
 $con->close();
 ?>
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết sản phẩm</title>
-</head>
 <style>
-  body {
-    margin-top: 90px;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    }
-
-  
-    main {
+    .productButtons {
         display: flex;
-        justify-content: space-between;
-        background-color: #fff;
-        padding: 30px;
-        margin: 20px auto;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 80%;
+        gap: 10px !important;
+        flex-wrap: wrap;
     }
 
-  
-    .product-container {
-        display: flex;
-        gap: 30px;
-        width: 100%;
-    }
-
-   
-    .if-img {
-        flex: 1;
-        max-width: 400px;
-    }
-
-    .product-image {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-   
-    .infor {
-        flex: 2;
-        max-width: 600px;
-    }
-
-    
-    h1 {
-        font-size: 26px;
-        color: #333;
-        margin-bottom: 15px;
-        font-weight: bold;
-    }
-
-   
-    .price p {
-        font-size: 20px;
-        color: #e74c3c;
-        font-weight: bold;
-    }
-
-    .mausac, .size {
-        margin-top: 15px;
-        font-size: 16px;
-        color: #555;
-    }
-
-    label {
-        margin-right: 15px;
-        font-size: 16px;
-        color: #555;
+    .productButtons label {
+        font-size: 14px !important;
+        box-shadow: none !important;
         cursor: pointer;
     }
 
-    input[type="radio"] {
-        margin-right: 8px;
-        vertical-align: middle;
+    .wrapper-detailProduct #addCart {
+        border: 1px solid red; 
+        color: red; 
+        font-size: 14px;
+        box-shadow: none;
     }
 
-    input[type="radio"]:checked + label {
-        font-weight: bold;
-        color: #e74c3c;
+    .wrapper-detailProduct #addCart:hover {
+        background-color: red;
+        color: #fff;
     }
-
-
-    p {
-        font-size: 16px;
-        color: #333;
-        line-height: 1.6;
-        margin-top: 20px;
-        font-family: Arial, sans-serif;
-    }
-
-    .mausac, .size, .price {
-        margin-bottom: 20px;
-    }
-
-    @media (max-width: 768px) {
-        .product-container {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .if-img {
-            max-width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .infor {
-            max-width: 100%;
-        }
-    }
-
 </style>
-<body> 
 
-    <main>
-        <div class="product-container">
-            <div class="if-img">
-                <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-image">
-            </div>
-            <div class="infor">
-                <h1>Chi tiết sản phẩm: <?= htmlspecialchars($product['name']) ?></h1>
-                <div class="price">
-                    <p><strong>Giá: </strong><?= number_format($product['price'], 0, ',', '.') ?> VND</p>
-                </div>
-                <div class="mausac">
-                <p><strong>Màu sắc: </strong>
-                    <?php
-                    if (!empty($colors)) {
-                        foreach ($colors as $index => $color) {
-                            echo '<label>';
-                            echo '<input type="radio" name="color" value="' . htmlspecialchars($color) . '" id="color' . $index . '">';
-                            echo htmlspecialchars($color);
-                            echo '</label><br>';
-                        }
-                    } else {
-                        echo "Không có màu sắc";
-                    }
-                    ?>
-                </p>
-
-                </div>
-                <div class="size">
-                    <p><strong>Kích thước: </strong>
-                        <?php
-                        foreach ($sizes as $index => $size) {
-                            echo '<label>';
-                            echo '<input type="radio" name="size" value="' . htmlspecialchars($size) . '" id="color' . $index . '">';
-                            echo htmlspecialchars($size);
-                            echo '</label><br>';
-                        }
-                        ?>
-                    </p>
-                </div>
-                <button><a href="#">Thêm vào giỏ hàng</a></button>
-                <button><a href="../../modules/checkout/viewOrder.php">Thanh toán ngay</a></button>
-                <a href=""></a>
-            </div>
+<div class="container wrapper-detailProduct">
+    <div class="d-flex justify-content-center gap-4">
+        <!-- Ảnh sản phẩm -->
+        <div class="border border-1 h-100">
+            <img src="<?= htmlspecialchars($product['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid">
         </div>
-        
-    </main>
-    <p><strong>Mô tả: </strong><?= nl2br(htmlspecialchars($product['description'])) ?></p>
-    
 
-    
-</body>
-</html>
+        <!-- Thông tin sản phẩm -->
+        <div class="" style="flex: 1;">
+            <!-- Tên sản phẩm -->
+            <h2><?= htmlspecialchars($product['name']) ?></h2>
 
-<?php  
-include_once "../../layout/footer/footer.php";
+            <!-- Giá sản phẩm -->
+            <div class="p-2 d-flex align-items-center" style="background-color: #f5f5f5;">
+                <span style="color: red; font-weight: 500; margin-right: 10px">
+                    <strong style="font-size: 16px; margin-right: 50px; color: #222;">Giá:</strong>
+                    <strong><?= number_format($product['price'], 0, ',', '.') ?>đ</strong>
+                </span>
+                <?php if (!empty($product['old_price']) && ($product['old_price'] != $product['price'])): ?>
+                    <span class="text-muted text-decoration-line-through" style="font-size: 14px; margin-right: 10px"><?= number_format($product['old_price'], 0, ',', '.') ?>đ</span>
+                    <span style="background-color: red; color: #fff; padding: 5px; border-radius: 25px; font-size: 10px;"><?= $product['discount'] ?>%</span>
+                <?php endif; ?>
+            </div>
+
+            <!-- Form truyền thông tin -->
+            <form action="../../modules/cart/add-to-cart.php" method="POST">
+                <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id) ?>">
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
+                <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['name']) ?>">
+                <input type="hidden" name="price" value="<?= htmlspecialchars($product['price']) ?>">
+                <input type="hidden" name="old_price" value="<?= htmlspecialchars($product['old_price']) ?>">
+                <input type="hidden" name="image_url" value="<?= htmlspecialchars($product['image_url']) ?>">
+
+                <!-- Chọn màu sắc -->
+                <div class="productButtons mb-3 d-flex flex-column">
+                    <p class="m-0 mt-2" style="font-size: 15px; font-weight: 500;">Màu sắc:</p>
+                    <div>
+                        <?php foreach ($colors as $color): ?>
+                            <input type="radio" class="btn-check" name="color" id="color-<?= htmlspecialchars($color) ?>" value="<?= htmlspecialchars($color) ?>" required>
+                            <label class="btn btn-outline-dark" for="color-<?= htmlspecialchars($color) ?>"><?= htmlspecialchars($color) ?></label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <!-- Chọn kích thước -->
+                <div class="productButtons mb-3 d-flex flex-column">
+                    <p class="m-0" style="font-size: 15px; font-weight: 500;">Kích thước:</p>
+                    <div>
+                        <?php foreach ($sizes as $size): ?>
+                            <input type="radio" class="btn-check" name="size_product" id="size-<?= htmlspecialchars($size) ?>" value="<?= htmlspecialchars($size) ?>" required>
+                            <label class="btn btn-outline-dark" for="size-<?= htmlspecialchars($size) ?>"><?= htmlspecialchars($size) ?></label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <!-- Số lượng -->
+                <div class="mb-3 d-flex align-items-center">
+                    <label for="quantity" class="form-label" style="font-size: 15px; font-weight: 500;">Số lượng:</label>
+                    <div class="border border-1 d-flex align-items-center ms-2">
+                        <button type="button" class="btn border-0 rounded-0" style="box-shadow: none; background: #f5f5f5;" onclick="document.getElementById('quantity').stepDown()">-</button>
+                        <input type="number" class="border-0 text-center" id="quantity" style="width: 50px; box-shadow: none; font-size: 14px;" name="quantity" value="1" min="1" required>
+                        <button type="button" class="btn border-0 rounded-0" style="box-shadow: none; background: #f5f5f5;" onclick="document.getElementById('quantity').stepUp()">+</button>
+                    </div>
+                </div>
+
+                <!-- Nút thêm vào giỏ hàng, mua sản phẩm -->
+                <div class="d-flex gap-2">
+                    <button id="addCart" type="submit" class="btn text-uppercase w-100">Thêm vào giỏ</button>
+                    <a href="../checkout/viewOrder.php" class="btn text-uppercase w-100" style="background-color: red; color: #fff; font-size: 14px; box-shadow: none;">Mua ngay</a>
+                </div>
+                <img src="../../uploads/other/Screenshot 2024-12-30 113857.png" alt="" style="width: 100%; height: 80px; object-fit: cover; margin-top: 10px;">
+            </form>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Mô tả sản phẩm -->
+    <p style="font-size: 16px; margin-bottom: 100px;"><?= htmlspecialchars($product['description']) ?></p>
+</div>
+
+<?php
+include_once '../../layout/footer/footer.php';
 ?>
