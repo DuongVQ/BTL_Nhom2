@@ -1,10 +1,11 @@
 <?php
-include_once '../../config.php';
+include_once '../../config.php'; 
 
-$user_id = $_SESSION['login'] ?? null;
+// Lấy thông tin user_id từ session
+$user_id = $_SESSION['login'] ?? null; 
 
 if ($user_id) {
-    // Số lượng sản phẩm trong giỏ hàng
+    // Lấy ra thông tin giỏ hàng của người dùng
     $cartCountQuery = "SELECT COUNT(*) as count FROM cart WHERE user_id = ?";
     $stmt = $con->prepare($cartCountQuery);
     $stmt->bind_param('i', $user_id);
@@ -12,6 +13,7 @@ if ($user_id) {
     $result = $stmt->get_result();
     $cartCount = 0;
 
+    // Số lượng sản phẩm trong giỏ hàng
     if ($result && $row = $result->fetch_assoc()) {
         $cartCount = $row['count'];
     }
@@ -25,6 +27,7 @@ if ($user_id) {
     $cartItems = [];
     $totalPrice = 0;
 
+    // Tính tổng giá tiền của giỏ hàng
     if ($cartItemsResult) {
         while ($row = $cartItemsResult->fetch_assoc()) {
             $cartItems[] = $row;
@@ -32,6 +35,7 @@ if ($user_id) {
         }
     }
 } else {
+    // Nếu chưa đăng nhập thì giỏ hàng rỗng
     $cartCount = 0;
     $cartItems = [];
     $totalPrice = 0;
@@ -125,35 +129,47 @@ if ($user_id) {
                 <div class="header-search">
                     <!-- Offcanvas Sidebar -->
                     <div class="offcanvas offcanvas-top" id="search" style="height: 100px !important;">
+
+                        <!-- Form search product -->
                         <form action="../../layout/header/search.php" method="GET" class="d-flex">
                             <div class="offcanvas-body d-flex justify-content-between align-items-center mt-2">
                                 <img itemprop="logo" src="//theme.hstatic.net/200000690725/1001078549/14/logo.png?v=603"
                                     alt="Torano" class="img-responsive logoimg ls-is-cached lazyloaded" width="180">
                                 <div class="d-flex align-items-center border-1 border border-dark">
+                                    <!-- Nhập dữ liệu tìm kiếm -->
                                     <input type="text" name="query" class="form-control header-search-input border-0"
                                         placeholder="Tìm kiếm sản phẩm" style="box-shadow: none; width: 500px;">
+                                
+                                    <!-- Btn tìm kiếm -->
                                     <button type="submit" class="header-action-btn">
                                         <box-icon name='search'></box-icon>
                                     </button>
                                 </div>
+
+                                <!-- Btn đóng offcanvas -->
                                 <button type="button" class="header-action-btn" data-bs-dismiss="offcanvas"
                                     style="width: 180px;">
                                     <box-icon name='x'></box-icon>
                                 </button>
                             </div>
                         </form>
-
                     </div>
+
+                    <!-- Nút tìm kiếm -->
                     <button class="header-action-btn" data-bs-toggle="offcanvas" data-bs-target="#search">
                         <box-icon name='search'></box-icon>
                     </button>
                 </div>
+
+                <!-- Giỏ hàng -->
                 <div class="header-cart">
                     <button class="header-action-btn" data-bs-toggle="offcanvas" data-bs-target="#demo"
                         style="position: relative;">
                         <box-icon name='shopping-bag'></box-icon>
+
+                        <!-- Hiển thị số lượng sản phẩm trong giỏ hàng -->
                         <?php if ($cartCount > 0): ?>
-                        <span class="total-products bg-danger"><?= $cartCount ?></span>
+                            <span class="total-products bg-danger"><?= $cartCount ?></span>
                         <?php endif; ?>
                     </button>
 
@@ -167,16 +183,20 @@ if ($user_id) {
                         <div class="offcanvas-body position-relative">
                             <?php if ($cartItems): ?>
                             <ul class="list-group rounded-0">
+                                <!-- Hiển thị sản phẩm trong giỏ hàng -->
                                 <?php foreach ($cartItems as $item): ?>
                                 <li
                                     class="list-group-item p-0 pt-1 pb-3 border-0 border-bottom d-flex justify-content-between gap-1">
                                     <div style="width: 80px;">
+                                        <!-- Ảnh sản phẩm -->
                                         <img src="<?= htmlspecialchars($item['image_url'] ?? 'default-image.png') ?>"
                                             alt="<?= htmlspecialchars($item['product_name']) ?>"
                                             style="width: 100%; height: 100px; object-fit: cover; border: 1px solid #eee;">
                                     </div>
                                     <div style="flex: 1;">
+                                        <!-- Tên sản phẩm -->
                                         <h6 style="font-size: 14px;"><?= htmlspecialchars($item['product_name']) ?></h6>
+                                        <!-- Thông tin màu, size -->
                                         <div class="d-flex justify-content-between align-items-center">
                                             <p style="font-size: 12px; margin-bottom: 0;">
                                                 <?= htmlspecialchars($item['color']) ?> /
@@ -185,6 +205,7 @@ if ($user_id) {
                                                 <?= number_format($item['price'], 0, ',', '.') ?>đ x
                                                 <?= $item['quantity'] ?></p>
                                         </div>
+                                        <!-- Xóa sản phẩm khỏi giỏ hàng -->
                                         <form action="../../modules/cart/delete-cart.php" method="POST"
                                             class="text-end">
                                             <input type="hidden" name="cart_item_id" value="<?= $item['id'] ?>">
@@ -195,26 +216,38 @@ if ($user_id) {
                                 </li>
                                 <?php endforeach; ?>
                             </ul>
+
+                            <!-- Thanh toán -->
                             <div class="mt-3 position-absolute bottom-0 start-0 w-100 p-2 border-top bg-white z-index-1">
+                                <!-- Tổng tiền -->
                                 <div class="d-flex justify-content-between w-100">
                                     <p>Thành tiền:</p>
                                     <p><?= number_format($totalPrice, 0, ',', '.') . 'đ' ?></p>
                                 </div>
+
+                                <!-- Btn thanh toán -->
                                 <a href="../../modules/checkout/viewOrder.php" class="btn w-100 text-white"
                                     style="box-shadow:none; background-color: red; font-size: 14px;">Thanh toán</a>
+                                
+                                <!-- Xem giỏ hàng -->
                                 <a href="../../modules/cart/cart.php"
                                     style="font-size: 12px; text-decoration:underline;">Xem giỏ hàng</a>
 
                             </div>
+
+                            <!-- Nếu không có sản phẩm -->
                             <?php else: ?>
-                            <p>Giỏ hàng của bạn trống.</p>
+                                <p>Giỏ hàng của bạn trống.</p>
                             <?php endif; ?>
                         </div>
                     </div>
                 </div>
+
+                <!-- Chức năng người dùng -->
                 <div class="header-user">
                     <?php
-                    if (!isset($_SESSION['login'])) {
+                        // Chưa đăng nhập hiện login
+                        if (!isset($_SESSION['login'])) {
                     ?>
                     <a href="../../modules/dashboard/login.php">
                         <div class="header-action-btn" style="cursor: pointer;">
@@ -222,29 +255,36 @@ if ($user_id) {
                         </div>
                     </a>
                     <?php
-                    } else {
+                    } else { // Đã đăng nhập hiện chức năng người dùng
                     ?>
                     <button class="header-action-btn header-user-parent">
                         <box-icon name='user'></box-icon>
                         <div class="header-user-secondary">
+                            <!-- Chỉnh sửa thông tin -->
                             <a href="../../modules/dashboard/inforUser.php">
                                 <div class="item-header-user-secondary">
                                     <box-icon type='solid' name='user'></box-icon>
                                     Thông tin cá nhân
                                 </div>
                             </a>
+
+                            <!-- Đơn hàng của tôi -->
                             <a href="../../modules/dashboard/donhangcuatoi.php">
                                 <div class="item-header-user-secondary">
                                     <box-icon type='solid' name='box'></box-icon>
                                     Đơn hàng của tôi
                                 </div>
                             </a>
+
+                            <!-- Lịch sử đặt hàng -->
                             <a href="../../modules/dashboard/history-order.php">
                                 <div class="item-header-user-secondary">
                                     <box-icon name='history'></box-icon>
                                     Lịch sử đặt hàng
                                 </div>
                             </a>
+
+                            <!-- Đăng xuất -->
                             <a href="../../modules/user/logout.php">
                                 <div class="item-header-user-secondary" style="border-top: 1px solid #ccc;">
                                     <box-icon name='log-out'></box-icon>
@@ -258,7 +298,6 @@ if ($user_id) {
                         </div>
                     </button>
                 </div>
-
             </div>
         </div>
     </div>

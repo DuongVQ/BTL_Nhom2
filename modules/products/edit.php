@@ -4,30 +4,31 @@ include_once "../../config.php";
 
 $product_id = $_GET['id'];
 
-// Fetch product details
+// Tìm sản phẩm theo id
 $productResult = $con->query("SELECT * FROM products WHERE id = $product_id");
 $product = $productResult->fetch_assoc();
 
-// Fetch product colors
+// Tìm màu sắc sản phẩm
 $colorResult = $con->query("SELECT color_name FROM product_colors WHERE product_id = $product_id");
 $colors = [];
 while ($colorRow = $colorResult->fetch_assoc()) {
     $colors[] = $colorRow['color_name'];
 }
 
-// Fetch product sizes
+// Tìm kích thước sản phẩm
 $sizeResult = $con->query("SELECT size_name FROM product_sizes WHERE product_id = $product_id");
 $sizes = [];
 while ($sizeRow = $sizeResult->fetch_assoc()) {
     $sizes[] = $sizeRow['size_name'];
 }
 
-// Fetch main image
+// Tìm ảnh sản phẩm
 $imageResult = $con->query("SELECT image_url FROM product_images WHERE product_id = $product_id LIMIT 1");
 $imageRow = $imageResult->fetch_assoc();
 $image = $imageRow ? $imageRow['image_url'] : 'no_image.png'; // Default image if none found
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Lấy thông tin sản phẩm từ form
     $name = $_POST['name'];
     $code = $_POST['code'];
     $description = $_POST['description'];
@@ -43,10 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $filename = basename($_FILES['images']['name'][0]);
         $path = $folder . $filename;
 
+        // Delete old image
         if (!file_exists($folder)) {
             mkdir($folder, 0777, true);
         }
 
+        // Upload new image
         if (move_uploaded_file($_FILES['images']['tmp_name'][0], $path)) {
             $image = $path;
             // Update image in the database

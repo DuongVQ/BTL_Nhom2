@@ -17,6 +17,7 @@ include_once "../../layout/slidebar/slidebar.php";
     <h1>Danh sách danh mục</h1>
     <a href="../../modules/category/add.php" class="btn btn-success">Thêm danh mục</a>
     <?php
+    // Lấy danh sách danh mục từ database
     $result = $con->query("SELECT * FROM categories");
     $count = 0;
     if ($result->num_rows > 0) {

@@ -12,14 +12,6 @@ CREATE TABLE IF NOT EXISTS manager_user.user (
     update_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Tạo bảng CSDL Admin
-CREATE TABLE IF NOT EXISTS manager_user.adminweb (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(200) NOT NULL,
-    create_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
 -- Tạo bảng CSDL danh mục sản phẩm
 CREATE TABLE IF NOT EXISTS manager_user.categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -132,15 +124,3 @@ CREATE TABLE IF NOT EXISTS manager_user.shipment (
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (order_id) REFERENCES orders(id)
 );
-
--- Tạo bảng CSDL token
-CREATE TABLE IF NOT EXISTS manager_user.loginToken (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_Id INT NOT NULL,
-    token VARCHAR(100) NOT NULL,
-    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_Id) REFERENCES user(id)
-);
-
--- DROP TABLE IF EXISTS manager_user.products;
-SELECT id FROM products ORDER BY created_at DESC LIMIT 1;

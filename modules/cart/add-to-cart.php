@@ -2,6 +2,7 @@
 session_start();
 include_once "../../config.php";
 
+// Get thông tin người dùng từ session
 $user_id = $_POST['user_id'];
 $product_id = $_POST['product_id'];
 $product_name = $_POST['product_name'];
@@ -17,6 +18,7 @@ $product_check_query = "SELECT id FROM products WHERE id = '$product_id'";
 $product_check_result = $con->query($product_check_query);
 
 if ($product_check_result->num_rows > 0) {
+    // Nếu tồn tại thì thêm vào giỏ hàng
     $query = "INSERT INTO cart (user_id, product_id, product_name, price, old_price, image_url, color, size_product, quantity) VALUES ('$user_id', '$product_id', '$product_name', '$price', '$old_price', '$image_url', '$color', '$size_product', '$quantity')";
 
     if ($con->query($query) === TRUE) {

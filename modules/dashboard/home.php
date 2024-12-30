@@ -4,9 +4,9 @@ include_once "../../layout/header/header.php";
 include_once "../../config.php";
 include_once "../../includes/function.php";
 
+// Lấy danh sách category, tối đa 7 danh mục
 $result = $con->query("SELECT * FROM categories LIMIT 7");
 $listCategories = [];
-
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -14,12 +14,13 @@ if ($result->num_rows > 0) {
     }
 }
 
+// Lấy sản phẩm khuyến mãi theo discount
 $saleResult = $con->query("SELECT  p.*, pi.image_url FROM products p LEFT JOIN product_images pi ON p.id = pi.product_id WHERE p.discount > 0 GROUP BY p.id");
 $saleProducts = [];
 
 if ($saleResult->num_rows > 0) {
     while ($row = $saleResult->fetch_assoc()) {
-        // Fetch colors
+        // Lấy màu sắc sản phẩm theo mảng, vì 1 sản phẩm có nhiều màu sắc
         $colorResult = $con->query("SELECT color_name FROM product_colors WHERE product_id = " . $row['id']);
         $colors = [];
         if ($colorResult->num_rows > 0) {
@@ -29,7 +30,7 @@ if ($saleResult->num_rows > 0) {
         }
         $row['colors'] = $colors; // Gán mảng màu sắc hoàn chỉnh
 
-        // Fetch sizes
+        // Lấy kích thước sản phẩm theo mảng, vì 1 sản phẩm có nhiều kích thước
         $sizeResult = $con->query("SELECT size_name FROM product_sizes WHERE product_id = " . $row['id']);
         $sizes = [];
         if ($sizeResult->num_rows > 0) {
@@ -82,13 +83,17 @@ $con->close();
     </div>
     <div class="swiper-container">
         <div class="swiper-wrapper">
+            <!-- Check category có chưa -->
             <?php if (!empty($listCategories)): ?>
                 <?php foreach ($listCategories as $category): ?>
+                    <!-- Item category -->
                     <div class="swiper-slide">
                         <div class="item-product-catalog">
+                            <!-- Ảnh -->
                             <img src="<?= !empty($category['image']) ? $category['image'] : '/uploads/default.png'; ?>"
                                 alt="<?= htmlspecialchars($category['name']); ?>">
                             <div class="title-item-product-catalog">
+                                <!-- Tên danh mục -->
                                 <span><?= htmlspecialchars($category['name']); ?></span>
                                 <a href="#">
                                     <button>
@@ -123,8 +128,10 @@ $con->close();
     </div>
     <div class="swiper-container">
         <div class="swiper-wrapper">
+            <!-- Hiển thị sản phẩm khuyến mãi -->
             <?php foreach ($saleProducts as $saleProduct): ?>
                 <div class="swiper-slide">
+                    <!-- Truyền vào data id, màu, size để lấy được modal -->
                     <div class="item-product" data-product-id="<?= htmlspecialchars($saleProduct['id']) ?>"
                         data-colors="<?= htmlspecialchars(implode(', ', $saleProduct['colors'])) ?>"
                         data-sizes="<?= htmlspecialchars(implode(', ', $saleProduct['sizes'])) ?>">
@@ -135,19 +142,16 @@ $con->close();
                         <div class="img-product">
                             <img src="<?= htmlspecialchars($saleProduct['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($saleProduct['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
                             <div class="img-product-after">
-                                
-                            <?php
-                            if (!empty($saleProducts)) {
-                                
-                                
+
+                                <?php
+                                if (!empty($saleProducts)) {
                                     echo '<button>';
                                     echo '<a href="chitetsanpham.php?id=' . $saleProduct['id'] . '">';
                                     echo '<img src="../../templates/image/after.png" alt="' . $saleProduct['name'] . '">';
                                     echo '</a>';
                                     echo '</button>';
-                                
-                            } 
-                            ?>
+                                }
+                                ?>
                                 <div class="wrapper-addCart">
                                     <div class="addCart">
                                         <i class="fa-solid fa-bag-shopping me-1"></i>Thêm
@@ -191,6 +195,7 @@ $con->close();
 
     <!-- Nội dung từng danh mục -->
     <div class="tab-content">
+        <!-- Tab áo khoác -->
         <div id="tab-1" class="tab-pane active">
             <div class="product-grid">
                 <?php foreach ($aoKhoacs as $aoKhoac): ?>
@@ -206,18 +211,17 @@ $con->close();
                         <div class="img-product">
                             <img src="<?= htmlspecialchars($aoKhoac['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($aoKhoac['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
                             <div class="img-product-after">
-                            <?php
-                            if (!empty($saleProducts)) {
-                                
-                                
+                                <?php
+                                if (!empty($saleProducts)) {
+
+
                                     echo '<button>';
                                     echo '<a href="chitetsanpham.php?id=' . $aoKhoac['id'] . '">';
                                     echo '<img src="../../templates/image/after.png" alt="' . $aoKhoac['name'] . '">';
                                     echo '</a>';
                                     echo '</button>';
-                                
-                            } 
-                            ?>
+                                }
+                                ?>
                                 <div class="wrapper-addCart">
                                     <div class="addCart">
                                         <i class="fa-solid fa-bag-shopping me-1"></i>Thêm
@@ -247,6 +251,8 @@ $con->close();
                 <?php endforeach; ?>
             </div>
         </div>
+
+        <!-- Tab bộ nỉ -->
         <div id="tab-2" class="tab-pane">
             <div class="product-grid">
                 <?php foreach ($boNis as $boNi): ?>
@@ -262,18 +268,17 @@ $con->close();
                         <div class="img-product">
                             <img src="<?= htmlspecialchars($boNi['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($boNi['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
                             <div class="img-product-after">
-                            <?php
-                            if (!empty($saleProducts)) {
-                                
-                                
+                                <?php
+                                if (!empty($saleProducts)) {
+
+
                                     echo '<button>';
                                     echo '<a href="chitetsanpham.php?id=' . $boNi['id'] . '">';
                                     echo '<img src="../../templates/image/after.png" alt="' . $boNi['name'] . '">';
                                     echo '</a>';
                                     echo '</button>';
-                                
-                            } 
-                            ?>
+                                }
+                                ?>
                                 <div class="wrapper-addCart">
                                     <div class="addCart">
                                         <i class="fa-solid fa-bag-shopping me-1"></i>Thêm
@@ -303,6 +308,8 @@ $con->close();
                 <?php endforeach; ?>
             </div>
         </div>
+
+        <!-- Tab sơ mi - quần dài -->
         <div id="tab-3" class="tab-pane">
             <div class="product-grid">
                 <?php foreach ($soMis as $soMi): ?>
@@ -318,18 +325,17 @@ $con->close();
                         <div class="img-product">
                             <img src="<?= htmlspecialchars($soMi['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($soMi['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
                             <div class="img-product-after">
-                            <?php
-                            if (!empty($saleProducts)) {
-                                
-                                
+                                <?php
+                                if (!empty($saleProducts)) {
+
+
                                     echo '<button>';
                                     echo '<a href="chitetsanpham.php?id=' . $soMi['id'] . '">';
                                     echo '<img src="../../templates/image/after.png" alt="' . $soMi['name'] . '">';
                                     echo '</a>';
                                     echo '</button>';
-                                
-                            } 
-                            ?>
+                                }
+                                ?>
                                 <div class="wrapper-addCart">
                                     <div class="addCart">
                                         <i class="fa-solid fa-bag-shopping me-1"></i>Thêm
@@ -359,6 +365,8 @@ $con->close();
                 <?php endforeach; ?>
             </div>
         </div>
+
+        <!-- Tab áo polo -->
         <div id="tab-4" class="tab-pane">
             <div class="product-grid">
                 <?php foreach ($aoPolos as $aoPolo): ?>
@@ -374,18 +382,17 @@ $con->close();
                         <div class="img-product">
                             <img src="<?= htmlspecialchars($aoPolo['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($aoPolo['name']) ?>" style="width: 100%; height: 280px; object-fit: cover;">
                             <div class="img-product-after">
-                            <?php
-                            if (!empty($saleProducts)) {
-                                
-                                
+                                <?php
+                                if (!empty($saleProducts)) {
+
+
                                     echo '<button>';
                                     echo '<a href="chitetsanpham.php?id=' . $aoPolo['id'] . '">';
                                     echo '<img src="../../templates/image/after.png" alt="' . $aoPolo['name'] . '">';
                                     echo '</a>';
                                     echo '</button>';
-                                
-                            } 
-                            ?>
+                                }
+                                ?>
                                 <div class="wrapper-addCart">
                                     <div class="addCart">
                                         <i class="fa-solid fa-bag-shopping me-1"></i>Thêm

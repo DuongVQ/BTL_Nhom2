@@ -1,3 +1,5 @@
+<!-- Lấy ra thông tin sản phẩm -->
+
 <?php
 $aoKhoacResult = $con->query("SELECT p.*, pi.image_url FROM products p LEFT JOIN product_images pi ON p.id = pi.product_id WHERE p.category = 2 GROUP BY p.id");
 $aoKhoacs = [];
