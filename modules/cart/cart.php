@@ -48,7 +48,7 @@ if ($user_id) {
                     <span>Hiện đang có <b><?= $cartCount ?> sản phẩm</b></span>
                 </div>
                 <?php foreach ($cartItems as $item): ?>
-                    <li class="list-group-item p-3 border-1 rounded-3 d-flex justify-content-between gap-1">
+                    <li class="list-group-item p-3 mb-3 border-1 rounded-3 d-flex justify-content-between gap-1">
                         <div style="width: 80px;">
                             <img src="<?= htmlspecialchars($item['image_url'] ?? 'default-image.png') ?>" alt="<?= htmlspecialchars($item['product_name']) ?>" style="width: 100%; height: 100px; object-fit: cover; border: 1px solid #eee;">
                         </div>

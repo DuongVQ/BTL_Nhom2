@@ -11,7 +11,7 @@ $user_id = $_SESSION['login'] ?? null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../../templates/css/vieworder.css">
-
+    <link rel="stylesheet" href="../../templates/css/bootstrap.min.css">
 </head>
 <style>
 
@@ -102,13 +102,10 @@ $user_id = $_SESSION['login'] ?? null;
                         </div>
                     </div>
                 </div>
-                <button>
-                    <a href="../../modules/cart/cart.php">Giỏ hàng</a>
-                </button>
+                
+                <a href="../../modules/cart/cart.php" class="btn btn-outline-danger w-100 mb-3">Giỏ hàng</a>
 
-
-                <button type="submit">Hoàn tất đơn hàng</button>
-
+                <button type="submit" class="btn btn-dark text-uppercase">Thanh toán đơn hàng</button>
 
             </div>
 
@@ -175,7 +172,7 @@ $user_id = $_SESSION['login'] ?? null;
         </main>
     </form>
 
-
+    <script src="../../templates/js/bootstrap.min.js"></script>
 </body>
 
 </html>

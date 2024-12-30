@@ -71,7 +71,14 @@ if ($user_id) {
     <link rel="stylesheet" href="../../templates/css/orderDetails.css">
     <link rel="stylesheet" href="../../templates/css/inforUser.css">
     <link rel="stylesheet" href="../../templates/css/listOrdered.css">
-
+    <link rel="stylesheet" href="../../templates/css/detailProduct.css">
+    <style>
+        .header-cart ul.list-group {
+        max-height: 400px;
+        overflow-y: auto; 
+        scrollbar-width: none; 
+    }
+    </style>
 </head>
 
 <body>
@@ -110,7 +117,7 @@ if ($user_id) {
                     </div>
                 </a>
                 <a href="#" class="item-menu-header">Collection</a>
-                <a href="?module=home&action=about-us" class="item-menu-header">About us</a>
+                <a href="#" class="item-menu-header">About us</a>
             </div>
 
             <!-- header action -->
@@ -188,7 +195,7 @@ if ($user_id) {
                                 </li>
                                 <?php endforeach; ?>
                             </ul>
-                            <div class="mt-3 position-absolute bottom-0 start-0 w-100 p-2 border-top">
+                            <div class="mt-3 position-absolute bottom-0 start-0 w-100 p-2 border-top bg-white z-index-1">
                                 <div class="d-flex justify-content-between w-100">
                                     <p>Thành tiền:</p>
                                     <p><?= number_format($totalPrice, 0, ',', '.') . 'đ' ?></p>

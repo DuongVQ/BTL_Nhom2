@@ -1,0 +1,12 @@
+.wrapper-detailProduct {
+    margin-top: 120px;
+}
+
+.wrapper-detailProduct img {
+    height: 400px;
+    object-fit: cover;
+}
+
+.wrapper-detailProduct h2 {
+    font-size: 25px;
+}

@@ -15,7 +15,7 @@ include "../../layout/header/header.php";
 <body>
     <div class="wrapper_list_ordered">
         <div class="container">
-            <h4 class="title_notf mb-3">Đơn hàng của tôi<</h4>
+            <h4 class="title_notf mb-3">Đơn hàng của tôi</h4>
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -40,7 +40,7 @@ include "../../layout/header/header.php";
                                 <td class="no_ordered"> <?= ++$no ?> </td>
                                 <td> <?= $arrOrdered['status'] ?> </td>
                                 <td> <?= $arrOrdered['created_at'] ?> </td>
-                                <td><a href="../../modules/dashboard/donhangctdetail.php?orderId=<?= $arrOrdered['id'] ?>" class="btn btn-info">Chi tiết</a> </td>
+                                <td><a href="../../modules/dashboard/donhangctdetail.php?orderId=<?= $arrOrdered['id'] ?>" class="btn btn-outline-danger">Chi tiết</a> </td>
                             </tr>
 
                 <?php

@@ -40,7 +40,7 @@ include "../../layout/header/header.php";
                                 <td class="no_ordered"> <?= ++$no ?> </td>
                                 <td> <?= $arrOrdered['status'] ?> </td>
                                 <td> <?= $arrOrdered['created_at'] ?> </td>
-                                <td><a href="./history-order-detail.php?orderId=<?= $arrOrdered['id'] ?>" class="btn btn-info">Chi tiết</a> </td>
+                                <td><a href="./history-order-detail.php?orderId=<?= $arrOrdered['id'] ?>" class="btn btn-outline-danger">Chi tiết</a> </td>
                             </tr>
 
                 <?php
