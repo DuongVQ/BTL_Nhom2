@@ -24,81 +24,65 @@
         integrity="sha512-Dm5UxqUSgNd93XG7eseoOrScyM1BVs65GrwmavP0D0DujOA8mjiBfyj71wmI2VQZKnnZQsSWWsxDKNiQIqk8sQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url('../../uploads/other/background-login.jpg') no-repeat center/cover;
-        }
-
-        form {
-            width: 500px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            height: auto;
-        }
-    </style>
 </head>
 
 <body>
-    <form method="POST" action="forgot-password.php" style="width: 500px;">
+    <form method="POST" action="forgot-password.php">
         <?php
         $url = "localhost";
         $uname = "root";
         $upass = "";
         $dbname = "manager_user";
-
+        
         $conn = new mysqli($url, $uname, $upass, $dbname);
-
+        
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['phone'])) {
             $email = trim($_POST['email']);
             $phone = trim($_POST['phone']);
-
+        
             // Kiểm tra email và số điện thoại trong cơ sở dữ liệu
             $query = $conn->prepare("SELECT id FROM user WHERE email = ? AND phone = ?");
             $query->bind_param("ss", $email, $phone);
             $query->execute();
             $result = $query->get_result();
-
+        
             if ($result->num_rows > 0) {
                 $user = $result->fetch_assoc();
                 $userId = $user['id'];
-
+        
+              
+        
                 // Gửi thông báo
-                echo "<script>alert('Đã xạc nhân email và số điện thoại thành công !'); location.href='reset-password.php?';</script>";
-
+                echo "<script>alert('Đã xạc nhân email và số điện thoại thành công !'); location.href='reset-password.php?';</script>";}
+             else {   
                 echo "<script>alert('Xác thục mật khẩu không đúng !');</script>";
-            }
+             }
+            
         }
 
         ?>
-        <h3 class="text-uppercase text-center mb-4"><b>Quên mật khẩu</b></h3>
+        <h3 class="text-uppercase text-center mb-5"><b>forgot password</b></h3>
 
 
         </div>
         <div data-mdb-input-init class="form-outline mb-4">
-            <input type="email" id="form2Example1" class="form-control border-0 border-bottom rounded-0 bg-transparent" style="box-shadow: none;" name="email" placeholder="Nhập email của bạn" />
-        </div>
+            <label class="form-label" for="form2Example1">Your email </label>
+            <input type="email" id="form2Example1" class="form-control" name="email" />
 
+        </div>
         <div data-mdb-input-init class="form-outline mb-4">
-            <input type="text" id="form2Example1" class="form-control border-0 border-bottom rounded-0 bg-transparent" style="box-shadow: none;" name="phone" placeholder="Nhập số điện thoại" />
+            <label class="form-label" for="form2Example1">Your phone number</label>
+            <input type="text" id="form2Example1" class="form-control" name="phone" />
+
         </div>
 
 
         <!-- Submit button -->
-        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark w-100 btn-block mb-4">Xác
-            nhận</button>
+         <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Xác
+            nhận</button> 
 
 
     </form>
