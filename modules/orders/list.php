@@ -41,9 +41,9 @@ include_once "../../config.php";
                         <tbody>
                             <?php
                             // Truy vấn cơ sở dữ liệu để lấy danh sách đơn hàng
-                            $sql_str = "SELECT orders.*, user.fullname
-                                FROM orders JOIN user 
-                                ON orders.user_id = user.id 
+                            $sql_str = "SELECT orders.*, shipment.fullname
+                                FROM orders 
+                                JOIN shipment ON orders.id = shipment.order_id 
                                 WHERE orders.id
                                 ORDER BY created_at";
                             $result = mysqli_query($con, $sql_str);
