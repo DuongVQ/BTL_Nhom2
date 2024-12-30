@@ -5,9 +5,7 @@ CREATE TABLE IF NOT EXISTS manager_user.user (
     email VARCHAR(100) UNIQUE NOT NULL,
     phone VARCHAR(20),
     password VARCHAR(200) NOT NULL,
-    forgotToken VARCHAR(100),
-    activeToken VARCHAR(100),
-    status INT DEFAULT 0,
+    role ENUM('admin', 'customer') DEFAULT 'customer',
     create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     update_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -24,14 +22,14 @@ CREATE TABLE IF NOT EXISTS manager_user.categories (
 
 -- Tạo bảng CSDL sản phẩm
 CREATE TABLE IF NOT EXISTS manager_user.products (
-    id INT AUTO_INCREMENT PRIMARY KEY, -- ID sản phẩm
-    name VARCHAR(255) NOT NULL, -- Tên sản phẩm
-    code VARCHAR(100) NOT NULL UNIQUE, -- Mã sản phẩm
-    category INT NOT NULL, -- Danh mục sản phẩm
-    price DECIMAL(10, 2) NOT NULL, -- Giá hiện tại
-    old_price DECIMAL(10, 2), -- Giá gốc (giá trước khi giảm)
-    discount INT DEFAULT 0, -- Phần trăm giảm giá
-    status ENUM('Còn hàng', 'Hết hàng') DEFAULT 'Còn hàng', -- Trạng thái sản phẩm
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    name VARCHAR(255) NOT NULL, 
+    code VARCHAR(100) NOT NULL UNIQUE, 
+    category INT NOT NULL, 
+    price DECIMAL(10, 2) NOT NULL, 
+    old_price DECIMAL(10, 2), 
+    discount INT DEFAULT 0, 
+    status ENUM('Còn hàng', 'Hết hàng') DEFAULT 'Còn hàng', 
     description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -40,29 +38,28 @@ CREATE TABLE IF NOT EXISTS manager_user.products (
 
 -- Tạo bảng CSDL hình ảnh
 CREATE TABLE IF NOT EXISTS manager_user.product_images (
-    id INT AUTO_INCREMENT PRIMARY KEY, -- ID hình ảnh
-    product_id INT NOT NULL, -- ID sản phẩm (liên kết với bảng products)
-    image_url VARCHAR(255) NOT NULL, -- URL hình ảnh
-    is_main BOOLEAN DEFAULT FALSE, -- Ảnh chính hay không
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Ngày tạo
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    product_id INT NOT NULL,
+    image_url VARCHAR(255) NOT NULL, 
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, 
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 -- Tạo bảng CSDL màu sắc
 CREATE TABLE IF NOT EXISTS manager_user.product_colors (
-    id INT AUTO_INCREMENT PRIMARY KEY, -- ID màu sắc
-    product_id INT NOT NULL, -- ID sản phẩm
-    color_name VARCHAR(100) NOT NULL, -- Tên màu (VD: Xanh, Đen)
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Ngày tạo
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL, 
+    color_name VARCHAR(100) NOT NULL, -
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 -- Tạo bảng CSDL kích thước
 CREATE TABLE IF NOT EXISTS manager_user.product_sizes (
-    id INT AUTO_INCREMENT PRIMARY KEY, -- ID kích thước
-    product_id INT NOT NULL, -- ID sản phẩm
-    size_name VARCHAR(50) NOT NULL, -- Tên kích thước (VD: S, M, L, XL)
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Ngày tạo
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    product_id INT NOT NULL, 
+    size_name VARCHAR(50) NOT NULL, 
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,  
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
@@ -112,7 +109,6 @@ CREATE TABLE IF NOT EXISTS manager_user.order_details (
 CREATE TABLE IF NOT EXISTS manager_user.shipment (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
-    user_id INT NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     phone VARCHAR(20) NOT NULL,
     country VARCHAR(100) NOT NULL,

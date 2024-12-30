@@ -29,10 +29,6 @@ $result = $con->query("SELECT * FROM user");
                                 <th>Họ Tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
-                                <th>Mật khẩu</th>
-                                <th>Trạng thái</th>
-                                <th>Ngày tạo</th>
-                                <th>Ngày cập nhật</th>
                                 <th>Vai trò</th>
                                 <th>Quản lý</th>
                             </tr>
@@ -46,10 +42,6 @@ $result = $con->query("SELECT * FROM user");
                                     <td><?= $row['fullname'] ?></td>
                                     <td><?= $row['email'] ?></td>
                                     <td><?= $row['phone'] ?></td>
-                                    <td><?= $row['password'] ?></td>
-                                    <td><span class='badge <?= $row['status'] == 'active' ? 'bg-success' : 'bg-danger' ?>'><?= $row['status'] ?></span></td>
-                                    <td><?= $row['create_at'] ?></td>
-                                    <td><?= $row['update_at'] ?></td>
                                     <td><?= $row['role'] ?></td>
                                     <td>
                                         <?php

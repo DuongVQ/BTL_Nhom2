@@ -31,8 +31,6 @@ $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN 
                                 <th>Mã sản phẩm</th>
                                 <th>Danh mục</th>
                                 <th>Giá</th>
-                                <th>Giá cũ</th>
-                                <th>Giảm giá</th>
                                 <th>Trạng thái</th>
                                 <th>Hình ảnh</th>
                                 <th>Thao tác</th>
@@ -55,8 +53,6 @@ $result = $con->query("SELECT p.*, c.name as category_name FROM products p JOIN 
                                         <td><?= $row['code'] ?></td>
                                         <td><?= $row['category_name'] ?></td>
                                         <td><?= number_format($row['price'], 0, ',', '.') ?> VND</td>
-                                        <td><?= number_format($row['old_price'], 0, ',', '.') ?> VND</td>
-                                        <td><?= $row['discount'] ?>%</td>
                                         <td><?= $row['status'] ?></td>
                                         <td><img src="<?= $image_url ?>" width="100"></td>
                                         <td>

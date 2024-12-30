@@ -24,7 +24,6 @@ include_once "../../config.php";
                                 <th>Mã đơn hàng</th>
                                 <th>Tên khách hàng</th>
                                 <th>Ngày đặt</th>
-                                <th>Ngày update</th>
                                 <th>Trạng thái</th>
                                 <th>Quản lý</th>
                             </tr>
@@ -47,7 +46,6 @@ include_once "../../config.php";
                                     <td><?=$row['id']?></td>
                                     <td><?=$row['fullname']?></td>
                                     <td><?=$row['created_at']?></td>
-                                    <td><?=$row['update_at']?></td>
                                     <td><span class='<?=$row['status']?>'><?=$row['status']?></span></td>
                                     <td>
                                         <a class="btn btn-warning" href="../../layout/slidebar/slidebar.php?page_layout=vieworders&id=<?=$row['id']?>">Xem</a>
