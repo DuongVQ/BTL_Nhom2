@@ -1,3 +1,21 @@
+
+<?php
+session_start();
+// Kiểm tra đăng xuất
+if (isset($_GET['page_layout']) && $_GET['page_layout'] === 'logout') {
+    unset($_SESSION['login']);
+    header("Location: ../../modules/dashboard/home.php");
+    exit;
+}
+// Kiểm tra đăng nhập
+if (!isset($_SESSION['login'])) {
+    header("Location:../../modules/dashboard/home.php");
+    exit;
+}
+
+?>
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,6 +125,7 @@
                             header("Location:../../modules/dashboard/home.php");
                             break;
                     }
+
                 }
                 ?>
             </div>
