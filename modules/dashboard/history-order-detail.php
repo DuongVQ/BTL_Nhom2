@@ -29,23 +29,29 @@ include "../../layout/header/header.php";
                 <?php
                 include "../../config.php";
                 $orderId = $_GET['orderId'];
-                $sql = "SELECT * FROM order_details WHERE `order_id` = '$orderId'";
+                $sql = "SELECT * FROM order_details WHERE order_id = '$orderId'";
                 $listOrder = mysqli_query($con, $sql);
                 if (mysqli_num_rows($listOrder) > 0) {
                     $no = 0;
+                    $totalPrice = 0;
                     while ($arrOrderDetails = mysqli_fetch_array($listOrder)) {
+                        $totalPrice += $arrOrderDetails['total'];
                 ?>
 
                         <tr>
                             <td class="no_ordered"> <?= ++$no ?> </td>
                             <td> <?= $arrOrderDetails['product_name'] ?> </td>
-                            <td> <?= $arrOrderDetails['price_product'] ?> </td>
-                            <td> <?= $arrOrderDetails['quantity'] ?> </td>
-                            <td> <?= $arrOrderDetails['total'] ?> </td>
+                            <td> <?= (int)$arrOrderDetails['price_product'] ?> </td>
+                            <td> <?= (int)$arrOrderDetails['quantity'] ?> </td>
+                            <td> <?= (int)$arrOrderDetails['total'] ?> </td>
                         </tr>
 
                 <?php
                     }
+                    echo "<tr>";
+                    echo "<td colspan=\"4\">TỔNG TIỀN CẢ ĐƠN HÀNG</td>";
+                    echo "<td>$totalPrice</td>";
+                    echo "</tr>";
                 }
                 ?>
             </table>

@@ -202,7 +202,7 @@ if (isset($_SESSION['sptk']) && !empty($_SESSION['sptk'])) {
 
                             <!-- Thêm vào giỏ hàng -->
                             <div class="card-footer text-center">
-                                <button class="btn btn-primary">Thêm vào giỏ</button>
+                                <button class="btn btn-outline-danger">Thêm vào giỏ</button>
                             </div>
                         </div>
                     </div>

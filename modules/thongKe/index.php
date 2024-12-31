@@ -27,16 +27,16 @@ function GetProductQuantityByDay($con)
 {
     $query = "SELECT 
                 DATE(orders.created_at) AS order_date,
-                order_details.product_id,
                 order_details.product_name,
+                products.code,
                 SUM(order_details.quantity) AS total_quantity,
                 SUM(order_details.quantity * order_details.price_product) AS total_price
                 FROM orders
                 JOIN order_details ON orders.id = order_details.order_id
+                JOIN products ON products.id = order_details.product_id
                 WHERE orders.status = 'Đã giao'
-                GROUP BY DATE(orders.created_at), order_details.product_id, order_details.product_name
-                ORDER BY DATE(orders.created_at) ASC, total_quantity DESC;
-";
+                GROUP BY DATE(orders.created_at), order_details.product_name, products.code
+                ORDER BY DATE(orders.created_at) ASC, total_quantity DESC";
 
     $result = $con->query($query);
     $data = [];
@@ -112,7 +112,7 @@ $productQuantityData = GetProductQuantityByDay($con);
                                 var row = `
                             <tr>
                                 <td>${item.order_date}</td>
-                                <td>${item.product_id}</td>
+                                <td>${item.code}</td>
                                 <td>${item.product_name}</td>
                                 <td>${item.total_quantity}</td>
                                 <td>${new Intl.NumberFormat('vi-VN').format(item.total_price)} VNĐ</td>
@@ -139,7 +139,7 @@ $productQuantityData = GetProductQuantityByDay($con);
                 </th>
                 <tr>
                     <th>Ngày</th>
-                    <th>ID Sản phẩm</th>
+                    <th>Mã sản phẩm</th>
                     <th>Tên sản phẩm</th>
                     <th>Tổng số lượng</th>
                     <th>Tổng tiền (VND)</th>
@@ -149,7 +149,7 @@ $productQuantityData = GetProductQuantityByDay($con);
                 <?php foreach ($productQuantityData as $row): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($row['order_date']); ?></td>
-                        <td><?php echo htmlspecialchars($row['product_id']); ?></td>
+                        <td><?php echo htmlspecialchars($row['code']); ?></td>
                         <td><?php echo htmlspecialchars($row['product_name']); ?></td>
                         <td><?php echo htmlspecialchars($row['total_quantity']); ?></td>
                         <td><?php echo number_format($row['total_price'], 0, '', '.') . " VNĐ"; ?></td>

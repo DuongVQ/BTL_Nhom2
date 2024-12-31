@@ -105,7 +105,7 @@ $user_id = $_SESSION['login'] ?? null;
                 
                 <a href="../../modules/cart/cart.php" class="btn btn-outline-danger w-100 mb-3">Giỏ hàng</a>
 
-                <button type="submit" class="btn btn-dark text-uppercase">Thanh toán đơn hàng</button>
+                <button type="submit" class="btn btn-dark text-uppercase w-100">Thanh toán đơn hàng</button>
 
             </div>
 
