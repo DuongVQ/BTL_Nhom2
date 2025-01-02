@@ -55,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         </div>
                                         <form class="user" method="post" action="#">
                                             <div class="row mb-3">
-                                                <div class="col-md-3"><strong>Mã hóa đơn:</strong></div>
-                                                <div class="col-md-9"><?= $row['id'] ?></div>
+                                                <div class="col-md-3"><strong>Mã đơn hàng:</strong></div>
+                                                <div class="col-md-9"><?= $row['order_id'] ?></div>
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-3"><strong>Khách hàng:</strong></div>
